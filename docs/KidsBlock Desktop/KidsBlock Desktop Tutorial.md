@@ -1,73 +1,246 @@
-# ESP32 Programming Box
+# KidsBlock Desktop Tutorial
+
+## 1. KidsBlock Desktop 图形化编程简介：
+
+KidsBlock Desktop 是一款旨在帮助儿童和初学者学习编程的图形化编程工具。它通过可视化的编程界面，让用户通过拖放模块的方式来构建程序，而不是直接编写代码。这种方式特别适合没有编程基础的用户，因为它简化了编程过程并降低了学习门槛。
+
+**主要特点包括：**
+
+1. **图形化界面**：用户通过拖拽不同功能的模块（如循环、条件判断、变量等）来创建程序，避免了复杂的代码语法问题。
+2. **教育导向**：专为儿童和青少年设计，界面友好，帮助他们在趣味中学习编程思维和逻辑。
+3. **互动学习**：通过图形化的编程环境，孩子们可以看到他们编写的程序如何实时地进行处理和响应，增加了学习的趣味性和互动性。
+4. **多样化的功能模块**：提供丰富的模块，支持创建各种不同类型的程序和项目，包括简单的动画、游戏和小工具。
+5. **易于扩展**：一些版本的 KidsBlock 可能允许用户通过自定义模块或者插件来扩展功能，从而提供更多的编程可能性。
+
+通过这种编程方式，KidsBlock Desktop 旨在激发孩子们对编程的兴趣，同时培养他们解决问题的能力和逻辑思维能力。
+
+## 2. Install Kidsblock on Windows
+
+1.Download Kidsblock package: [http://xiazai.keyesrobot.cn/KidsBlock.exe](http://xiazai.keyesrobot.cn/KidsBlock.exe)
+
+2.Click “KidsBlock Desktop.exe”.
+
+![k1](./media/k1.png)
+
+3.Tick “**Anyone who uses this computer(all users)**” and click “**Next**”.
+
+![img](./media/k2.jpg)
+
+4.Click “**Browse...**” to choose a path for the software (here we choose Disk C) and then “**Install**”.
+
+![k3](./media/k3.png)
+
+![k4](./media/k4.png)
+
+5.Click “Finish” and open Kidsblock.
+
+![5](./media/k5.png)
+
+6.If a warning interface pops up, just “**Allow access**”. 
+
+​	Main interface of Kidsblock:
+
+![6](./media/k6.png)
 
 
 
-## 1. Introduction
+## 3. Install Kidsblock on MacOS
 
-Based on ESP32, this programming box is a learning toolbox for children over 6 years old, as a shell wraps its circuit board, avoiding pins scratched children. 
+1.Download Kidsblock package: [https://xiazai.keyesrobot.cn/KidsBlock.dmg](https://xiazai.keyesrobot.cn/KidsBlock.dmg)
 
-The ESP32 programming box integrates 16 sensors and modules, including LED, button, 1.3 inch OLED display, photoresistor, sound sensor, speaker, temperature and humidity sensor as well as pressure sensor. Thus, the box can be matched with interesting experiments. In this tutorial, we provide 36 projects, like small lamp, automatic window, sound control light, compass, and environmental monitoring.
+![k7](./media/k7.png)
 
-Each project contains two programming methods: MicroPython and KidsBlock Desktop graphical programming. The latter only need to build up code blocks so is conducive to the initial training of programming thinking.
+2.After downloading, Click KidsBlock. Drag the icon of KidsBlock Desktop into Applications.
 
+![8](./media/k8.png)
 
+3.After installation, you can see the icon of KidsBlock.
 
-## 2. Features
-
-**1. No wiring:** We integrate wiring in circuit board, so no worry about the wrong wiring to burn the module.
-
-**2. Multiple functions:** With ESP32 development board as control board, this box contains 16 sensors and modules, and it is available to either external 7-12V DC power or 6 AA batteries.
-
-**3. Simple structure:** Ready-to-use and full shell package prevents hands from being scratched by pins and protects the board as well.
-
-**4. Strong expansibility:** Four RJ11 interfaces are reserved beyond the shell, all of which are compatible with IIC communication.
-
-**5. Basic programming learning:** Graphical programming for new hands to cultivate programming logic and foundation; MicroPython programming for developers to contact the underlying codes combined with hardware.
+![k9](./media/k9.png)
 
 
 
-## 3. Parameters
+## 4. Kidsblock
 
-**Operating voltage:** 3.3v
+(**Here we demonstrate on Windows, and it can be a reference for MacOS.**)
 
-**External DC power:** 7-12V
+### 1. Main Interface Functions 1
 
-**Built-in battery holder:** 9V (six AA batteries, of 1.5V each)
+![k10](./media/k10.png)
 
-**USB power:** 5V
+### 2. Languages
 
-**Operating current:** 
+Click ![img](./media/k11.jpg) to choose “English” or “简体中文”: ![image-k12](./media/k12.png)
 
-**Operating temperature:** –10 °C ~ +65 °C
+### 3. Driver
+
+**NOTE: If the driver has already installed on your computer, please skip the following steps.**
+
+Click ![img](./media/k13.jpg) to choose “**Install driver**”.
+
+![k14](./media/k14.png)
+
+A. Welcome to the Device Driver Installation Wizard and click “**Next**”.
+
+![k15](./media/k15.png)
+
+B. “**Finish**”.
+
+![k16](./media/k16.png)
+
+C. “**Next**”
+
+![k17](./media/k17.png)
+
+D. “**Finish**”
+
+![k18](./media/k18.png)
+
+E. If a warning interface pops up, just “**Allow**”. And then click “**Install**”.
+
+![k19](./media/k19.png)
+
+F.“**Install**”
+
+G. “**Finish**”
+
+![k20](./media/k20.png)
+
+H. “**Extract**”
+
+![k21](./media/k21.png)
+
+I. “**Next**”
+
+![k22](./media/k22.png)
+
+J. Tick “**I accept this agreement**” and then “**Next**”.
+
+![k23](./media/k23.png)
+
+K. “**Finish**”
+
+![k24](./media/k24.png)
+
+L. “**INSTALL**”
+
+![k25](./media/k25.png)
+
+M. Wait for the completion of driver installing. And click “**OK**”.
+
+![k26](./media/k26.png)
+
+### 4. Development Board
+
+Click ![img](./media/k27.jpg) to choose a control board. We have integrated the board we need in this software: click “Kit” and find “ESP32 coding box” to “**Connect**”. After connecting, “**Go to Editor**”. 
+
+![](./media/k31.png)
+
+![](./media/k32.png)
+
+![](./media/k33.png)
+
+![img](./media/k27.jpg) changes into ![](./media/k29.png), and ![img](./media/k28.jpg) changes into ![](./media/k30.png). These means ESP32 board and COM port are both connected.
+
+![](./media/k34.png)
+
+### 5. Serial Port
+
+If the ESP32 board is connected but ![img](./media/k28.jpg) does not change into ![](./media/k30.png), we need to set a COM port manually. 
+
+Click ![img](./media/k28.jpg) and “**Connect**”. When you see "connected", the port is set.
+
+![](./media/k36.png)
+
+![](./media/k32.png)
+
+![](./media/k33.png)
+
+Disconnection: click ![](./media/k30.png) and “**Disconnect**”.
+
+![](./media/k34.png)
+
+![](./media/k41.png)
+
+### 6. Main Interface Functions 2
+
+![](./media/k42.jpg)
+
+### 7. Extensions
+
+**NOTE: All required modules are integrated in main board, so this section is for reference.**
+
+Extensions: ![img](./media/k43.jpg)
+
+Click ![img](./media/k43.jpg) to search and load sensors/modules. For instance, click “passive buzzer” ![img](./media/k44.jpg) and “**Not loaded**” changes into “**Loaded**”. Passive buzzer is added.
+
+![img](./media/k45.jpg)![img](./media/k46.png)   ![img](./media/k47.jpg)
+
+Click ![img](./media/k48.jpg) to back to editor, and you will see the Passive buzzer block.
+
+![img](./media/k49.jpg)
+
+If you want to remove it, enter ![img](./media/k43.jpg) and click ![img](./media/k44.jpg) again, and “Loaded” changes into “Not loaded”. That means this block is removed. 
+
+![img](./media/k47.jpg)![img](./media/k46.png)   ![img](./media/k45.jpg) 
+
+### 8. Code
+
+**Method 1:**
+
+Click the SB3 file you want to load. If you want to open ![](./media/k50.png), click it to directly load to the software. After that, connect to the board and port.
+
+![](./media/k54.png)
+
+**Method 2:**
+
+Open Kidsblock and click “**file**” to choose “**Load from your computer**”, open a file of .SB3, for example, ![](./media/k50.png).
+
+![](./media/k52.png)
+
+![](./media/k53.png)
+
+![](./media/k54.png)
 
 
 
-## 4. Kit List
+## 5.Upload Code and Set Baud Rate
 
-| #    | PIC  | NAME                  | QTY  |
-| ---- | ---- | --------------------- | ---- |
-| 1    |      | ESP32 programming box | 1    |
-| 2    |      | Type-c cable          | 1    |
-| 3    |      | Key                   | 1    |
-| 4    |      | IC card               | 1    |
+### 1. Upload Code
+
+Load ![](./media/k50.png) into Kidsblock, and set the development board and port. Click ![image-20230425155752592](./media/k55.png).
+
+![](./media/k56.png)
+
+![](./media/k57.png)
+
+After uploading, the printing box of Kidsblock prints “Hello KidsBlock”.
+
+![](./media/k58.png)
+
+### 2. Set Baud Rate
+
+Set printing box: ![](./media/k59.png)
+
+![](./media/k60.png): small
+
+![](./media/k61.png): large
+
+![](./media/k63.png): none
+
+If there is no output or it outputs garbled words, please click ![](./media/k62.png) to set baud rate first. The baud rate should be consistent with the code. Here it is 9600.
+
+![](./media/k64.png)
 
 
-
-## 5. Graphical Programming KidsBlock Desktop
-
-<p style="color:red;">If you have never come into contact with KidBlock Desktop, please learn this section carefully.</p>
-
-KidBlock Desktop tutorial: [KidsBlockDesktopInstallationAndUse.md](./KidsBlockDesktopInstallationAndUse.md)
-
-Included: how to download and use KidsBlock Desktop.
 
 ## 6. Tutorial Download
 
+Click to download the compressed code file and extract it, then store it on the computer desktop.
 
+[click here to download](./codes.zip)
 
-
-
-## 7. ESP32 Programming Box
+## 7. ESP32 Coding Box
 
 ### 7.1 LED Blink
 
@@ -113,7 +286,11 @@ There are two ways to upload the code: directly open the code file we provide; o
 
 **Directly open the code file we provide:**
 
+1. Click ![](./media/j68.png) and choose `Load from your computer`
 
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-1-led.sb3`
 
 **Manually build blocks:**
 
@@ -148,9 +325,15 @@ If you want the LED to blink more frequently, just modify the delay time in ![j4
 
 ##### 7.1.5.1 Text Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
 **Directly open the code file we provide:**
 
+1. Click ![](./media/j68.png) and choose `Load from your computer`
 
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-1-led2.sb3`
 
 **Manually build blocks:**
 
@@ -202,7 +385,11 @@ There are two ways to upload the code: directly open the code file we provide; o
 
 **Directly open the code file we provide:**
 
+1. Click ![](./media/j68.png) and choose `Load from your computer`
 
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-2-sound.sb3`
 
 **Manually build blocks:**
 
@@ -243,7 +430,13 @@ Based on pyroelectric effect, the sensor is able to detect the infrared ray emit
 
 #### 7.3.3 Code Blocks
 
+1. ![j15](./media/j15.png) 
 
+	This block reads PIR motion sensor value. If there is a human motion, it outputs 1; otherwise, it outputs 0. 
+
+2. ![j16](./media/j16.png) 
+
+	This block determines whether a condition is satisfied. If yes, code in “if” will be executed. Or else, code in “else” will be executed.
 
 #### 7.3.4 Test Code
 
@@ -253,13 +446,11 @@ There are two ways to upload the code: directly open the code file we provide; o
 
 **Directly open the code file we provide:**
 
-1. ![j15](./media/j15.png) 
+1. Click ![](./media/j68.png) and choose `Load from your computer`
 
-	This block reads PIR value. If a motion is detected, output 1. If not, output 0.
+![](./media/j67.png)
 
-2. ![j16](./media/j16.png) 
-
-	This block determines conditions. If the output is 1, execute code in "if"; If the output is 0, execute code in "else". 
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-3-pir.sb3`
 
 **Manually build blocks:**
 
@@ -325,7 +516,11 @@ There are two ways to upload the code: directly open the code file we provide; o
 
 **Directly open the code file we provide:**
 
+1. Click ![](./media/j68.png) and choose `Load from your computer`
 
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-4-speaker.sb3`
 
 **Manually build blocks:**
 
@@ -355,6 +550,14 @@ We make the module to play music.
 There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
 
 **Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-4-speaker2.sb3`
+
+**Manually build blocks:**
 
 ![6-4](./media/6-4-5-1.png)
 
@@ -392,7 +595,11 @@ There are two ways to upload the code: directly open the code file we provide; o
 
 **Directly open the code file we provide:**
 
+1. Click ![](./media/j68.png) and choose `Load from your computer`
 
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-5-light.sb3`
 
 **Manually build blocks:**
 
@@ -480,12 +687,22 @@ When button S3(the green button) is pressed, the voltage of IO33 is that between
 
 ##### 7.6.4.1 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-6-adKey.sb3`
+
+**Manually build blocks:**
+
 1. In ![events](./media/events.png), find ![j1](./media/j1.png) block.
 2. In ![serial](./media/serial.png), find ![j12](./media/j12.png) block and set baud rate to 9600, and put it under ![j1](./media/j1.png).
 3. In ![control](./media/variable.png), find and drag block ![j7](./media/j7.png) under ![6-4-4-1-1](./media/6-2-4-1-1.png).
 4. In ![control](./media/control.png), put ![j2](./media/j2.png) under ![](./media/j7.png)
-
-![6-6](./media/6-6-4-1-1.png)
 
 5. In ![control](./media/variable.png), put ![j9](./media/j9.png) into ![j2](./media/j2.png)
 
@@ -523,7 +740,19 @@ AD button logic table:
 
 ##### 7.6.5.2 Test Code
 
-Based on 7.6.4.1, we add a condition statement to determine the read analog value of AD button module so that we can tell which button is pressed.
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-6-adKey2.sb3`
+
+**Manually build blocks:**
+
+Based on `7-6-adKey.sb3`, we add a condition statement to determine the read analog value of AD button module so that we can tell which button is pressed.
 
 ![6-6](./media/6-6-4-1-4.png)
 
@@ -599,6 +828,18 @@ This block reads the distance value. You can modify its unit into cm (default) o
 
 ##### 7.7.4.1 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-7-ultrasonic.sb3`
+
+**Manually build blocks:**
+
 1. In ![events](./media/events.png), find ![j1](./media/j1.png) block.
 2. In ![serial](./media/serial.png), find ![j12](./media/j12.png) block and set baud rate to 9600, and put it under ![j1](./media/j1.png).
 3. In ![control](./media/control.png), put ![j2](./media/j2.png) under ![6-4-4-1-1](./media/6-2-4-1-1.png)
@@ -671,6 +912,18 @@ The card reader is composed of a frequency transmitter module and a high level m
 
 ##### 7.8.4.1 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-8-rfid.sb3`
+
+**Manually build blocks:**
+
 1. In ![events](./media/events.png), find ![j1](./media/j1.png) block.
 2. In ![rfid](./media/RFID.png), find and put ![j27](./media/j27.png) under ![j1](./media/j1.png)
 3. In ![serial](./media/serial.png), find ![j12](./media/j12.png) and set baud rate to 9600
@@ -738,6 +991,18 @@ This block reads the values of Axis-X&Y Joystick module. You can set pins and ax
 
 ##### 7.9.4.1 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-9-joystick.sb3`
+
+**Manually build blocks:**
+
 1. In ![events](./media/events.png), find ![j1](./media/j1.png) block.
 2. In ![serial](./media/serial.png), find ![j12](./media/j12.png) block and set baud rate to 9600, and put it under ![j1](./media/j1.png).
 3. In ![control](./media/control.png), drag ![j2](./media/j2.png).![6-4-4-1-1](./media/6-2-4-1-1.png)
@@ -792,6 +1057,18 @@ This block reads reads the temperature and humidity values. But it only reads on
 #### 7.10.4 Test Code
 
 ##### 7.10.4.1 Build Code
+
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-10-aht20.sb3`
+
+**Manually build blocks:**
 
 1. In ![events](./media/events.png), find ![j1](./media/j1.png) block.
 2. In ![serial](./media/serial.png), find ![j12](./media/j12.png) block and set baud rate to 9600, and put it under ![j1](./media/j1.png).
@@ -860,6 +1137,18 @@ Based on piezoelectric pressure sensing technology, the BMP388 pressure sensor a
 #### 7.11.4 Test Code
 
 ##### 7.11.4.1 Build Code
+
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-11-bmp388.sb3`
+
+**Manually build blocks:**
 
 1. In ![events](./media/events.png), find ![j1](./media/j1.png) block.
 2. In ![](./media/bmp388.png), find and put ![j35](./media/j35.png) under ![j1](./media/j1.png).
@@ -936,6 +1225,18 @@ This sensor amplifies and processes the induced potential signals, which are the
 
 ##### 7.12.4.1 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-12-ak8975.sb3`
+
+**Manually build blocks:**
+
 1. In ![events](./media/events.png), find ![j1](./media/j1.png) block.
 2. In ![6-12](./media/compas.png), put ![j35](./media/j39.png) under ![j1](./media/j1.png)
 3. In ![serial](./media/serial.png), drag ![j12](./media/j12.png) and set baud rate to 9600, and put it under ![j35](./media/j39.png)
@@ -969,7 +1270,7 @@ This sensor amplifies and processes the induced potential signals, which are the
 
 ##### 7.12.4.2 Test Result
 
-After uploading code, the serial monitor prints the sensor values. Move the programming box to see the changes of these values.
+After uploading code, the serial monitor prints the sensor values. Move the coding box to see the changes of these values.
 
 ![6-12](./media/6-12-4-2.png)
 
@@ -1006,6 +1307,18 @@ This block controls the rotation of the motor. You only need to set motor pins a
 
 ##### 7.13.4.1 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-13-fan.sb3`
+
+**Manually build blocks:**
+
 1. In ![events](./media/events.png), find ![j1](./media/j1.png) block.
 2. In ![control](./media/control.png), find and place ![j2](./media/j2.png) block under ![j1](./media/j1.png).
 
@@ -1023,11 +1336,9 @@ This block controls the rotation of the motor. You only need to set motor pins a
 
 ![6-13](./media/6-13-4-1-2.png)
 
-##### 7.13.2 Test Result
+##### 7.13.4.2 Test Result
 
 After uploading code, you will see the fan forward rotates for 2s and then reverses for another 2s. Then it stops. These actions repeat.
-
-
 
 ### 7.14 Servo
 
@@ -1073,6 +1384,18 @@ Usually three wires:
 
 ##### 7.14.4.1  Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-14-servo.sb3`
+
+**Manually build blocks:**
+
 1. In ![events](./media/events.png), find ![j1](./media/j1.png) block.
 2. In ![control](./media/control.png), find and place ![j2](./media/j2.png) block under ![j1](./media/j1.png).
 
@@ -1089,13 +1412,25 @@ Usually three wires:
 
 ##### 7.14.4.2 Test Result
 
-After uploading code, the servo rotates to 0 degree, 90 degree and 180 degree accordingly, with each each position staying for 2 seconds, and then it back to 0 degree. It repeats these rotations.
+After uploading code, the servo rotates to 0 degree, 90 degree and 180 degree accordingly, with each position staying for 2 seconds, and then it back to 0 degree. It repeats these rotations.
 
 ####  7.14.5 Extension
 
 We control servo to repeatedly and gradually rotate from 0 degree to 180 degree and then gradually back to 0 degree.
 
 ##### 7.14.5.1 Test Code
+
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-14-servo2.sb3`
+
+**Manually build blocks:**
 
 1. In ![events](./media/events.png), find ![j1](./media/j1.png) block.
 2. In ![control](./media/control.png), find and place ![j2](./media/j2.png) block under ![j1](./media/j1.png).
@@ -1179,6 +1514,18 @@ For detailed information of transmission mode, please refer the specification of
 
 ##### 7.15.4.1 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-15-rgbLed.sb3`
+
+**Manually build blocks:**
+
 1. In ![events](./media/events.png), find ![j1](./media/j1.png) block.
 2. In ![](./media/RGB.png), find and put ![6-15](./media/j46.png) under![j1](./media/j1.png)
 3. In ![](./media/RGB.png), put ![6-15](./media/j50.png) under![j1](./media/j46.png) and set brightness to 50 to avoid glaring.
@@ -1202,6 +1549,18 @@ After uploading code, the first pixel of ws2812 lights up in red.
 Light up all LED circulating red, green, and blue.
 
 ##### 7.15.5.1 Test Code
+
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-15-rgbLed2.sb3`
+
+**Manually build blocks:**
 
 1. In ![events](./media/events.png), find ![j1](./media/j1.png) block.
 2. In ![RGB](./media/RGB.png), drag and put ![6-15](./media/j46.png) under ![j1](./media/j1.png)
@@ -1291,6 +1650,18 @@ Resolution: 128 x 64
 
 ##### 7.16.4.1 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-16-oled.sb3`
+
+**Manually build blocks:**
+
 1. In ![events](./media/events.png), find ![j1](./media/j1.png) block.
 
 2. In ![](./media/oled.png), find and put ![](./media/j53.png) and ![](./media/j54.png) under ![j1](./media/j1.png) in sequence.
@@ -1321,7 +1692,19 @@ Scroll text on OLED display.
 
 ##### 7.16.5.1 Test Code
 
-Open code “6-16-4-1”, and we make some changes on it:
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-16-oled2.sb3`
+
+**Manually build blocks:**
+
+Open code `7-16-oled.sb3`, and we make some changes on it:
 
 1. Drag and put ![QQ_1721202248225](./media/j60.png)under ![](./media/j53.png), and set y1 to “64”.
 2. Remove block ![](./media/j59.png). If it keeps refreshing, the text strings will not scroll.
@@ -1362,7 +1745,11 @@ There are two ways to upload the code: directly open the code file we provide; o
 
 **Directly open the code file we provide:**
 
+1. Click ![](./media/j68.png) and choose `Load from your computer`
 
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-17-trafficLight.sb3`
 
 **Manually build blocks:**
 
@@ -1441,7 +1828,11 @@ There are two ways to upload the code: directly open the code file we provide; o
 
 **Directly open the code file we provide:**
 
+1. Click ![](./media/j68.png) and choose `Load from your computer`
 
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-18-gradientLight.sb3`
 
 **Manually build blocks:**
 
@@ -1496,6 +1887,18 @@ In this project, we control the ON/OFF of the LED via an AD button. The LED will
 ![6-19-2-1](./media/6-19-2-1.png)
 
 ##### 7.19.2.2 Build Code
+
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-19-tableLamp.sb3`
+
+**Manually build blocks:**
 
 1. In ![events](./media/events.png), find ![j1](./media/j1.png) block.
 2. In ![control](./media/control.png), find and place ![j2](./media/j2.png) block under ![j1](./media/j1.png).
@@ -1552,6 +1955,18 @@ All in all, it protects our personal and property safety.
 
 ##### 7.20.2.2 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-20-IntrusionAlarm.sb3`
+
+**Manually build blocks:**
+
 1. Build the two basic blocks:
 
 ![6-1-4-1-1](./media/6-1-4-1-1.png)
@@ -1586,11 +2001,23 @@ In this project, we program to make the window automatically close when getting 
 
 ##### 7.21.2.2 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-21-automaticWindow.sb3`
+
+**Manually build blocks:**
+
 1. Build the two basic blocks:
 
 ![6-1-4-1-1](./media/6-1-4-1-1.png)
 
-2. We add ![](./media/j16.png) to determine the photoresistor value. If the analog value is lower than 500, the servo will rotate to 180 degree. If not, servo will rotate to 0 dgree.
+2. We add ![](./media/j16.png) to determine the photoresistor value. If the analog value is lower than 500, the servo will rotate to 180 degree. If not, servo will rotate to 0 degree.
 
 **Complete Test Code**
 
@@ -1615,6 +2042,18 @@ Voice-control-light device mainly consists of a sound sensor, a photoresistor an
 ![6-22-2-1](./media/6-22-2-1.png)
 
 ##### 7.22.2.2 Build Code
+
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-22-hallwayLight.sb3`
+
+**Manually build blocks:**
 
 1. Build the two basic blocks:
 
@@ -1655,6 +2094,18 @@ The analog piano mainly includes an ultrasonic sensor to detect the distance of 
 ![6-23-2-1](./media/6-23-2-1.png)
 
 ##### 7.23.2.2 Build Code
+
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-23-separatedPiano.sb3`
+
+**Manually build blocks:**
 
 1. Build the two basic blocks:
 
@@ -1720,6 +2171,18 @@ In this experiment, we program to control the fan by a button.
 
 ##### 7.24.2.2 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-24-electricFan.sb3`
+
+**Manually build blocks:**
+
 1. Build the two basic blocks:
 
 ![6-1-4-1-1](./media/6-1-4-1-1.png)
@@ -1758,6 +2221,18 @@ Many shopping malls open their doors when someone approaches and close them when
 ![6-25-2-1](./media/6-25-2-1.png)
 
 ##### 7.25.2.2 Build Code
+
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-25-InductionDoor.sb3`
+
+**Manually build blocks:**
 
 1. Build the two basic blocks:![6-1-4-1-1](./media/6-1-4-1-1.png)
 
@@ -1801,6 +2276,18 @@ This block assigns strings. You only need to input strings into it.
 
 ##### 7.26.2.2 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-26-accessControl.sb3`
+
+**Manually build blocks:**
+
 1. Build the two basic blocks:![6-1-4-1-1](./media/6-1-4-1-1.png)
 2. Add a ![j27](./media/j27.png) to initialize the RFID module.
 3. Declare a string variable named “idCard”
@@ -1841,6 +2328,18 @@ Now let's do it!
 
 ##### 7.27.2.2 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-27-automaticFan.sb3`
+
+**Manually build blocks:**
+
 1. Build the two basic blocks:![6-1-4-1-1](./media/6-1-4-1-1.png)
 2. Declare a variable named “temp”
 3. Assign the temperature value read by the sensor to the variable *temp*
@@ -1871,6 +2370,18 @@ In this project, we use an OLED display to reveal the values of temperature, hum
 #### 7.28.2 Test Code
 
 ##### 7.28.2.1 Build Code
+
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-28-environmentalMonitoring.sb3`
+
+**Manually build blocks:**
 
 1. Build the two basic blocks:![6-1-4-1-1](./media/6-1-4-1-1.png)
 2. Add a BMP388 and OLED initialization block; Add a string block to set its parameters.
@@ -1935,6 +2446,18 @@ When a car is in reverse, it will alarm the distance of the obstacles behind the
 
 ##### 7.29.2.2 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-29-parkingSensor.sb3`
+
+**Manually build blocks:**
+
 1. Build the two basic blocks:
 
 ![6-1-4-1-1](./media/6-1-4-1-1.png)
@@ -1980,6 +2503,18 @@ Note that here we adopt 60/5=12 rather than 59/5=11.8, this is because the varia
 ![6-30-2-1](./media/6-30-2-1.png)
 
 ##### 7.30.2.2 Build Code
+
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-30-rgbClock.sb3`
+
+**Manually build blocks:**
 
 1. Build the two basic blocks:![6-1-4-1-1](./media/6-1-4-1-1.png)
 
@@ -2055,6 +2590,18 @@ We control the servo via the axis X of the joystick. This model is widely applie
 
 ##### 7.31.2.2 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-31-remoteControlServo.sb3`
+
+**Manually build blocks:**
+
 1. Build the two basic blocks:![6-1-4-1-1](./media/6-1-4-1-1.png)
 2. Declare a variable *angle* and assign the x value of joystick to *angle*.
 
@@ -2087,6 +2634,18 @@ In this project, we combine the ultrasonic sensor and the OLED module to build a
 #### 7.32.2 Test Code
 
 ##### 7.32.2.1 Build Code
+
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-32-rangeFinder.sb3`
+
+**Manually build blocks:**
 
 1. Build the two basic blocks:![6-1-4-1-1](./media/6-1-4-1-1.png)
 2. Initialize OLED module by ![j53](./media/j53.png)
@@ -2129,6 +2688,18 @@ The AK8975 module is adopted to read direction values. According to these values
 
 ##### 7.33.2.2 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-33-compass.sb3`
+
+**Manually build blocks:**
+
 1. Build the two basic blocks:![6-1-4-1-1](./media/6-1-4-1-1.png)
 2. Initialize AK8975 module and OLED display, declare a variable “direction”.
 
@@ -2158,7 +2729,7 @@ The AK8975 module is adopted to read direction values. According to these values
 
 ##### 7.33.2.3 Test Result
 
-After uploading code, the arrow on the OLED will nearly point to the South. Move the programming box and you will see the direction changes. 
+After uploading code, the arrow on the OLED will nearly point to the South. Move the coding box and you will see the direction changes. 
 
 
 
@@ -2215,7 +2786,19 @@ espressif official: https://www.espressif.com.cn/en/home
 
 ####  7.34.4 Test Code
 
-**Add wifi web page library first:**
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-34-wifi.sb3`
+
+**Manually build blocks:**
+
+Add wifi web page library first:
 
 - Click ![st130](./media/6-34-4-1.png) to add an Extension
 
@@ -2277,6 +2860,18 @@ In this project, we display the values of temperature and humidity sensor, press
 
 ##### 7.35.2.1  Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-35-wifiWebpageDisplay.sb3`
+
+**Manually build blocks:**
+
 1. Initialize BMP388 and wifi, set the name and passwords of wifi.
 
 	Initialize OLED and display the IP address of the wifi on it.
@@ -2310,6 +2905,18 @@ We control LED, servo and the fan on the web page button wirelessly.
 #### 7.36.2 Test Code
 
 ##### 7.36.2.1 Build Code
+
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-36-wifiWebpageControl.sb3`
+
+**Manually build blocks:**
 
 1. Initialize wifi and OLED, display the IP address of the wifi on the OLED. Name a variable used to switch sensor state according to the corresponding functions, for example, we name redLed to represent the red led.
 
@@ -2347,6 +2954,18 @@ In this project, we set seven buttons to control the speaker to play tones of Do
 
 ##### 7.37.2.1 Build Code
 
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-37-wifiWebPiano.sb3`
+
+**Manually build blocks:**
+
 1. Initialize wifi and OLED module, display the IP address of the wifi on the OLED
 2. define buttons through ![QQ_1722222062997](./media/j66.png), modify the button names and functions, press buttons to play tones of Do, Re, Mi, Fa, So, La, Si.
 
@@ -2373,6 +2992,18 @@ Combined web buttons and wireless control, this control panel in this project is
 #### 7.38.2 Test Code
 
 ##### 7.38.2.1 Build Code
+
+There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
+
+**Directly open the code file we provide:**
+
+1. Click ![](./media/j68.png) and choose `Load from your computer`
+
+![](./media/j67.png)
+
+2. We have already downloaded the codes on computer desktop, so open the file and choose `7-38-intelligentConsole.sb3`
+
+**Manually build blocks:**
 
 1. Initialize wifi and OLED module, set the name and passwords of the wifi
 
