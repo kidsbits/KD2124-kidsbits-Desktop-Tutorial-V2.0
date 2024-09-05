@@ -5,10 +5,8 @@
 
    README.md
    docs/index
-   docs/KidsBlock Desktop/KidsBlock Desktop Tutorial.md
-   docs/KidsBlock Desktop/KidsBlockDesktopInstallationAndUse.md
-   docs/KidsBlock Desktop/index
-   docs/MicroPython/MicroPython Tutorial.md
+   docs/KidsBlock Desktop/KidsBlockDesktopTutorial.md
+   docs/MicroPython/MicroPythonTutorial.md
 
 
 

@@ -1,18 +1,18 @@
 # KidsBlock Desktop Tutorial
 
-## 1. KidsBlock Desktop 图形化编程简介：
+## 1. KidsBlock Desktop Graphical Programming
 
-KidsBlock Desktop 是一款旨在帮助儿童和初学者学习编程的图形化编程工具。它通过可视化的编程界面，让用户通过拖放模块的方式来构建程序，而不是直接编写代码。这种方式特别适合没有编程基础的用户，因为它简化了编程过程并降低了学习门槛。
+KidsBlock Desktop is a graphical programming tool designed to help children and beginners learn programming. It uses a visual programming interface to build programs by dragging code blocks rather than writing codes directly. This is especially suitable for users without programming background, as it simplifies the process and lowers the learning threshold.
 
-**主要特点包括：**
+**Main Features:**
 
-1. **图形化界面**：用户通过拖拽不同功能的模块（如循环、条件判断、变量等）来创建程序，避免了复杂的代码语法问题。
-2. **教育导向**：专为儿童和青少年设计，界面友好，帮助他们在趣味中学习编程思维和逻辑。
-3. **互动学习**：通过图形化的编程环境，孩子们可以看到他们编写的程序如何实时地进行处理和响应，增加了学习的趣味性和互动性。
-4. **多样化的功能模块**：提供丰富的模块，支持创建各种不同类型的程序和项目，包括简单的动画、游戏和小工具。
-5. **易于扩展**：一些版本的 KidsBlock 可能允许用户通过自定义模块或者插件来扩展功能，从而提供更多的编程可能性。
+1. **Graphical interface**: Users create programs by dragging code blocks with different functions (such as loops, conditional judgments, variables, etc.), rather than learning complex code syntax issues. 
+2. **Educational orientation**: It is designed for children and teens with a user-friendly interface, and it helps them learn programming thinking and logic in fun.
+3. **Interactive learning**: Through graphical programming, children see how the programs they write process and respond in real time, increasing the joy and interactivity.
+4. **Diversified functional blocks**: It provides a wealth of blocks for the creation of different types of programs and projects, including simple animations, games and gadgets.
+5. **Easy to expand**: Some versions of KidsBlock are able to extend the functionality through custom modules or plug-ins, thus providing more programming possibilities.
 
-通过这种编程方式，KidsBlock Desktop 旨在激发孩子们对编程的兴趣，同时培养他们解决问题的能力和逻辑思维能力。
+With graphical programming, KidsBlock Desktop aims to stimulate children's interest in programming and develop their problem-solving and logical thinking skills.
 
 ## 2. Install Kidsblock on Windows
 
@@ -187,6 +187,8 @@ If you want to remove it, enter ![img](./media/k43.jpg) and click ![img](./media
 ### 8. Code
 
 **Method 1:**
+
+[click here to download codes](./codes.zip)
 
 Click the SB3 file you want to load. If you want to open ![](./media/k50.png), click it to directly load to the software. After that, connect to the board and port.
 

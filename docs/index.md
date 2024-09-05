@@ -1,39 +1,43 @@
-**首先感谢选择keyestudio产品,**
+**Thank you for choosing keyestudio!**
 
-**我们将继续为你提供好的产品和服务!**
+**We will endeavor to provide you with better products and services!**
 
 ------
 
-**关于keyestudio**
+**About Keyestudio**
 
-Keyestudio是KEYES Corporation旗下最畅销的品牌，我们的产品包括Arduino开发板，扩展板，传感器模块，树莓派，micro：bit扩展板和智能小车，以及为各种级别的客户设计的完整入门套件，这些入门套件旨在为任何水平的客户学习Arduino知识。
+Keyestudio is the best-selling brand owned by KEYES Corporation. Our product contains Arduino development and expansion boards, sensors and modules, Raspberry Pi, micro:bit expansion boards as well as smart cars and learning kits, which can help customers at any level to learn about Arduino.
 
-我们所有的产品均符合国际质量标准，并在世界各地的不同市场中得到了极大的赞赏。 
+Notably, all of our products are in line with international quality standards and are greatly appreciated in a broad menu of different markets across the world.
 
-欢迎从我们的官方网站查看更多内容：
+Welcome to check out more contents from our official website:
 
 [http://www.keyestudio.com](http://www.keyestudio.com)
 
 ------
 
-**获取资料和售后服务**
+**Obtain Information and After-sales Service**
 
-1. 如果发现某些东西丢失或损坏，或者学习套件时遇到一些困难。keyestudio会提供免费和快速的支持，如果您有任何疑问，请给我们发送电子邮件：[service@keyestudio.com](http://m.138.gz.cn/webadmin/~CAmsnCrrNXhTAySKCerrIfWjjZuuWVfI/~/usr/mod_edituser.jsp?;uid=service@keyestudio.com;;clearCache=)
+1. If something is found missing or broken, or you have some difficulty learning the kit, please feel free to contact us. Welcome to send email to us: [service@keyestudio.com](http://m.138.gz.cn/webadmin/~CAmsnCrrNXhTAySKCerrIfWjjZuuWVfI/~/usr/mod_edituser.jsp?;uid=service@keyestudio.com;;clearCache=)
 
-2. 欢迎提出建议和反馈，我们会根据您的反馈不断更新套件和教程，以使其更好。谢谢！
-
-------
-
-**产品安全**
-
-1. 本产品内含排针针脚，注意刺伤，请勿让7岁以下的儿童接触，放在他们拿不到的地方。
-2. 本产品包含导电部件(控制板和电子模块），请按照本教程的要求进行操作，不当的操作可能导致过热并且损害零件，请勿触摸并立即断开电路电源。
+2. We will endeavor to update projects and products continuously from your sincere advice! Thanks!
 
 ------
 
-**版权**
+**Warning**
 
-keyestudio商标和徽标是KEYES DIY ROBOT co.,LTD的版权,任何人和公司在没有授权的情况下，不得复制，售卖，转卖，keyestudio品牌的产品。如果你有兴趣在当地售卖我们的产品，请联系我们专业的批发销售人员：[fennie@keyestudio.com](http://m.138.gz.cn/webadmin/~CAmsnCrrNXhTAySKCerrIfWjjZuuWVfI/~/usr/mod_edituser.jsp?;uid=fennie@keyestudio.com;;clearCache=)
+1. This product contains tiny pin headers, so please keep out of reach of children under 7 to prevent from lacerations. 
+2. This product also contains conductive parts(control board and electronic modules). Please operate according to the requirements of tutorials. Otherwise, improper operation may damage parts due to overheating. In this case, do not touch it and immediately disconnect the circuit power.
+
+------
+
+**Copyright**
+
+The Keyestudio trademark and logo are the copyright of **KEYES DIY ROBOT co.,LTD**. All products under Keyestudio brand can’t be copied, sold or resold without authorization by anyone or any company.
+
+If you are interested in our products, please contact to our sales representatives:
+
+[fennie@keyestudio.com](http://m.138.gz.cn/webadmin/~CAmsnCrrNXhTAySKCerrIfWjjZuuWVfI/~/usr/mod_edituser.jsp?;uid=fennie@keyestudio.com;;clearCache=)
 
 ------
 
@@ -81,27 +85,27 @@ Each project contains two programming methods: MicroPython and KidsBlock Desktop
 
 ## 4. Kit List
 
-| #    | PIC  | NAME             | QTY  |
-| ---- | ---- | ---------------- | ---- |
-| 1    |      | ESP32 coding box | 1    |
-| 2    |      | Type-c cable     | 1    |
-| 3    |      | Key              | 1    |
-| 4    |      | IC card          | 1    |
+| #    |         PIC          |       NAME       | QTY  |
+| :--- | :------------------: | :--------------: | :--: |
+| 1    | ![](./media/a1.jpeg) | ESP32 coding box |  1   |
+| 2    | ![](./media/a2.png)  |   Type-c cable   |  1   |
+| 3    | ![](./media/a3.jpeg) |       Key        |  1   |
+| 4    | ![](./media/a4.jpg)  |     IC card      |  1   |
 
 ------
 
-## 5. 教程链接
+## 5. Tutorials
 
-### 1.KidsBlock Desktop软件图形化编程教程
+### 1.KidsBlock Desktop Graphical Programming
 
-[点击跳转到图形化编程教程](./KidsBlock Desktop/KidsBlock Desktop Tutorial.md)
+[Click to learn the graphical programming using method](./KidsBlockDesktop/KidsBlockDesktopTutorial.md).
 
-![image-20240905104127799](./media/image-20240905104127799.png)
+![a5](./media/a5.png)
 
 
 
-### 2.Thonny软件MicroPython编程教程
+### 2.Thonny MicroPython Programming
 
-[点击跳转到MicroPython编程教程](./MicroPython/MicroPython Tutorial.md)
+[Click to learn the MicroPython programming using method](./MicroPython/MicroPythonTutorial.md).
 
-![image-20240905110601776](./media/image-20240905110601776.png)
+![a6](./media/a6.png)

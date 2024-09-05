@@ -1,13 +1,13 @@
 # MicroPython Tutorial
 
-MicroPython是Python 3语言的精简实现，包括Python标准库的一小部分，经过优化可在微控制器和受限环境中运行。以下是MicroPython的主要特点：
+MicroPython is a stripped-down version of Python 3 language, which includes a small portion of the Python standard library. It can run in microcontrollers and restricted environments after being optimized. Here are the main features of MicroPython:
 
-1. **兼容性**：MicroPython努力与普通的Python（称为CPython）尽可能兼容，这意味着如果你了解Python，就已经掌握了MicroPython的基础知识。
-2. **硬件访问**：除了实现一系列核心Python库之外，MicroPython还包括用于访问低级硬件的“机器”等模块，使得开发者能够直接控制微控制器的硬件资源。
-3. **交互式提示符（REPL）**：MicroPython提供了一个交互式提示符（REPL），允许用户直接在嵌入式平台上从桌面计算机执行命令。这对于嵌入式系统的快速实时测试和调试非常有用。
-4. **多线程支持**：MicroPython固件支持多线程功能，这使得单个微控制器能够同时处理多个嵌入式任务，从而加速嵌入式应用程序的执行。
-5. **开源项目**：MicroPython是一个开源项目，其源代码可在Github上获取。它遵循MIT许可证，可免费用于教育和商业目的。
-6. **广泛支持**：MicroPython支持多种微控制器板和RTOS（实时操作系统），如ESP32、ESP8266、STM32等。此外，它还提供了丰富的库和模块，以满足不同开发需求。
+1. **Compatibility**: MicroPython strives to be as compatible as possible with normal Python (CPython), which means that if you know Python, you already know the basics of MicroPython. 
+2. **Hardware access**: In addition to core Python libraries, MicroPython includes modules such as "machines" for accessing low-level hardware, giving developers direct control over the hardware resources of the microcontroller. 
+3. **Interactive prompt (REPL)**: MicroPython provides an interactive prompt (REPL) so that users execute commands directly from a desktop computer on an embedded platform. This is very useful for fast real-time testing and debugging of embedded systems. 
+4. **Multi-threading support**: MicroPython firmware supports multi-threading, which enables a single microcontroller to handle multiple embedded tasks simultaneously, thus speeding up the executions.
+5. **Open source project**: MicroPython is an open source project whose source code is available on Github. It follows the MIT license and is free to use for educational and commercial purposes. 
+6. **Wide support**: MicroPython supports a variety of microcontroller boards and RTOS (real-time operating systems), such as ESP32, ESP8266, STM32, etc. In addition, it also provides rich libraries and modules to meet different development needs. 
 
 ### 1. Download Thonny
 
