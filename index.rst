@@ -5,8 +5,6 @@
 
    README.md
    docs/index
-   docs/KidsBlockDesktop/index.rst
-
 
 
 
