@@ -5,9 +5,6 @@
 
    README.md
    docs/index
-   docs/KidsBlockDesktop/KidsBlockDesktopTutorial.md
-   docs/MicroPython/MicroPythonTutorial.md
-
 
 
 
