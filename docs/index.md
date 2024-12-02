@@ -96,7 +96,7 @@ Each project contains two programming methods: MicroPython and KidsBlock Desktop
 
 ### 1.KidsBlock Desktop Graphical Programming
 
-[Click to learn the graphical programming using method](./KidsBlockDesktop/KidsBlockDesktopTutorial.md).
+[Click to learn the graphical programming using method](./KidsBlockDesktop/KidsBlockDesktopTutorial).
 
 ![a5](./media/a5.png)
 
