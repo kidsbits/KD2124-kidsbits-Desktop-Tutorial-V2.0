@@ -1,7 +1,7 @@
 
 .. toctree::
    :maxdepth: 3
-   :caption: KD2124 kidsbits Desktop Tutorial-V2.0
+   :caption: KD2
 
    KidsBlockDesktopTutorial.md
 
