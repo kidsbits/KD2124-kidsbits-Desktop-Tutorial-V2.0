@@ -1,4 +1,4 @@
-# MicroPython Tutorial
+## MicroPython Tutorial
 
 MicroPython is a stripped-down version of Python 3 language, which includes a small portion of the Python standard library. It can run in microcontrollers and restricted environments after being optimized. Here are the main features of MicroPython:
 
@@ -9,7 +9,7 @@ MicroPython is a stripped-down version of Python 3 language, which includes a sm
 5. **Open source project**: MicroPython is an open source project whose source code is available on Github. It follows the MIT license and is free to use for educational and commercial purposes. 
 6. **Wide support**: MicroPython supports a variety of microcontroller boards and RTOS (real-time operating systems), such as ESP32, ESP8266, STM32, etc. In addition, it also provides rich libraries and modules to meet different development needs. 
 
-### 1. Download Thonny
+## 1. Download Thonny
 
 #### Windows
 
@@ -31,7 +31,7 @@ Similar to Windows.
 
 ![1104](./media/6-1-4.png)
 
-### 2. Install Thonny
+## 2. Install Thonny
 
 Two methods:
 
@@ -119,13 +119,13 @@ Shortcut: ![1216](./media/6-1-21.png)
 
 
 
-### 3. Board Driver
+## 3. Board Driver
 
 During installing, please connect the coding box to the computer!
 
 #### Windows：
 
-Click [here](./Windows.zip) to download Windows CH340 driver.
+[Click here to download Windows CH340 driver.](./Windows.zip)
 
 ![](./media/6-3-1.png)
 
@@ -161,7 +161,7 @@ As follows:
 
 #### MAC：
 
-Click [here](./MAC.zip) to download MAC CH340 driver
+[Click here to download MAC CH340 driver.](./MAC.zip)
 
 ![image-20240809151931276](./media/6-3-10.png)
 
@@ -219,11 +219,11 @@ Open “Terminal” program under Applications-Utilities folder and type the com
 
 You should see the “tty.wchusbserialx” where “x” is the assigned device number similar to Windows COM port assignment.
 
-### 4. Burn FIRMWARE
+## 4. Burn FIRMWARE
 
 MicroPython firmware is required to operate on ESP32.
 
-Click [here](./Firmware.zip) to download firmware.
+[Click here to download firmware.](./Firmware.zip)
 
 ![image-20240809153705533](./media/6-4-1.png)
 
@@ -253,7 +253,7 @@ F. Click `install` and wait.
 
 ![QQ_1722307359022](./media/6-4-8.png)
 
-### 5 .Thonny
+## 5 .Thonny
 
 #### Interface
 
@@ -296,7 +296,7 @@ Click Files and you will see This computer . Copy and paste the file into `Codes
 
 ![](./media/6-6-1.png)
 
-Connect to the coding box. 
+Connect to the coding box. If you cannot see the port, please install driver. If the code still cannot be uploaded after connecting to the port, please check whether the firmware is installed to the box. For how to download them, please refer to:
 
 Driver: `3.Board Driver`; Firmware: `4.Burn FIRMWARE`
 
@@ -350,7 +350,7 @@ If you want to run a code offline, it must be loaded to the coding box with a na
 
 #### 7.1.1 Overview
 
-LED Blink is one of the simplest entry-level programming projects. It only needs an LED and then upload the code on the Arduino IDE. This simple project helps beginners better master basic concepts.
+LED Blink is one of the simplest entry-level programming projects. It only needs an LED and then upload the code on the ESP32 Coding Box. This simple project helps beginners better master basic concepts.
 
 #### 7.1.2 Schematic Diagram
 
@@ -627,7 +627,7 @@ while True:
 
 **Result:**
 
-Click ![img](./media/run.jpg)“Run current script” to run the code. “Shell” prints the corresponding value and characters. When a motion is detected, value = 1, on-board LED is off, and “shell” shows “1 Somebody is in this area!” If no motion is detected, value = 0, on-board LED is on, “shell” prints “0 No one!”
+Click ![img](./media/run.jpg)“Run current script” to run the code. “Shell” prints the corresponding value and characters. When a motion is detected, value = 1,  and “shell” shows “1 Somebody is in this area!” If no motion is detected, value = 0, “shell” prints “0 No one!”
 
 Press “Ctrl+C” or click ![img](./media/stop.jpg)“Stop/Restart backend” to quit the execution.
 
@@ -1372,9 +1372,8 @@ import time
 
 scl = Pin(22)
 sda = Pin(21)
-bus = 0		#specify the number of the I2C bus
 #create an ak8975c object, initialize I2C bus and SCL and SDA pin
-Triaxial = ak8975c(bus, scl, sda)
+Triaxial = ak8975c(scl, sda)
 
 while True:
     Triaxial.measure()  # measure values
@@ -1786,7 +1785,7 @@ The traffic light module limits the pedestrian and vehicular thoroughfare. It in
 
 **Green for Proceed:** Pedestrians and vehicles keep going with the abidance of traffic regulations.
 
-In this project, you can program on Arduino development board to control a mini traffic light. For instance, set the duration of each lights and the interval time among them. Besides, you may also add a timer to alter light colors to schedule.
+In this project, you can program on ESP32 Coding Boxto control a mini traffic light. For instance, set the duration of each lights and the interval time among them. Besides, you may also add a timer to alter light colors to schedule.
 
 #### 7.17.2 Test Code
 
@@ -1850,7 +1849,7 @@ In this way, ambient light can be simulated by changing LED brightness along wit
 
 PWM controls analog output via digital means, which are able to adjust the duty cycle of the wave (a signal circularly shifting between high level and low level).
 
-For Arduino, digital ports of voltage output are LOW and HIGH, which respectively correspond to 0V and 5V. Generally, we define LOW as 0 and HIGH as 1. Arduino will output 500 signals of 0 or 1 within 1s. If they are 500 “1”s, 5V will be output. Oppositely, if they are all 0s, the output will be 0V. Or if they are 010101010101…, the average output will be 2.5V. In other words, output ratio of 0 and 1 affects the voltage value. 
+digital ports of voltage output are LOW and HIGH, which respectively correspond to 0V and 5V. Generally, we define LOW as 0 and HIGH as 1. will output 500 signals of 0 or 1 within 1s. If they are 500 “1”s, 5V will be output. Oppositely, if they are all 0s, the output will be 0V. Or if they are 010101010101…, the average output will be 2.5V. In other words, output ratio of 0 and 1 affects the voltage value. 
 
 Honestly, it differs from real continuous output, yet the more 0 and 1 signals are output per unit time, the more accurate the control will be.
 
@@ -2904,7 +2903,7 @@ After uploading code, the arrow on the OLED will nearly point to the South. Move
 
 #### 7.34.1 Overview
 
-ESP32 boasts a built-in Wi-Fi and Bluetooth nodule that is widely used in Internet of Things (IoT). With this function, it can remotely control the data transmission through the wireless network. Generally, developers program via an Arduino IDE or ESP-IDF to connect the ESP32 to the Internet via a WiFi connection to a router.
+ESP32 boasts a built-in Wi-Fi and Bluetooth nodule that is widely used in Internet of Things (IoT). With this function, it can remotely control the data transmission through the wireless network. 
 
 In applications, ESP32 can be used as a client to connect to a Wi-Fi network, or as a hotspot to create its own network. Through these connections, ESP32 receives commands to control external devices, such as turning on/off lights and adjusting temperature. In the code, protocols like HTTP and MQTT are used to communicate with the server to achieve data sending and receiving, so as to remotely control and monitoring.
 
@@ -3233,6 +3232,7 @@ import socket
 import time
 import machine
 from machine import Pin, PWM
+from servo import Servo
 
 # WiFi connection information
 SSID = 'test1'  # your WiFi name
@@ -3243,7 +3243,7 @@ ledRed = Pin(23, Pin.OUT)
 ledYellow = Pin(26, Pin.OUT)
 ledGreen = Pin(27, Pin.OUT)
 
-servo = PWM(Pin(25), freq=50)
+servo = Servo(pin=25)
 
 MA = Pin(18, Pin.OUT)
 MB = Pin(17, Pin.OUT)
@@ -3315,9 +3315,9 @@ def handle_request(request):
     elif 'ledGreen_off' in request:
         ledGreen.value(0)
     elif 'servo_left' in request:
-        servo.duty(0)  # rotate to left
+        servo.set_angle(0)  # rotate to left
     elif 'servo_right' in request:
-        servo.duty(180)  # rotate to right
+        servo.set_angle(180)  # rotate to right
     elif 'fan_on' in request:
         MA.value(1)
         MB.value(0)

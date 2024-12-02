@@ -77,9 +77,7 @@ Each project contains two programming methods: MicroPython and KidsBlock Desktop
 
 **USB power:** 5V
 
-**Operating current:** 
-
-**Operating temperature:** –10 °C ~ +65 °C
+**Operating temperature:** 0 °C ~ 50 °C
 
 
 

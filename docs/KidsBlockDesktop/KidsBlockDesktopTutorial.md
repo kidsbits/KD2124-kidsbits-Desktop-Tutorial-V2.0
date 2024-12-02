@@ -1,4 +1,4 @@
-# KidsBlock Desktop Tutorial
+## KidsBlock Desktop Tutorial
 
 ## 1. KidsBlock Desktop Graphical Programming
 
@@ -248,7 +248,7 @@ Click to download the compressed code file and extract it, then store it on the 
 
 #### 7.1.1 Overview
 
-LED Blink is one of the simplest entry-level programming projects. It only needs an LED and then upload the code on the Arduino IDE. This simple project helps beginners better master basic concepts.
+LED Blink is one of the simplest entry-level programming projects. It only needs an LED and then upload the code  This simple project helps beginners better master basic concepts.
 
 #### 7.1.2 Schematic Diagram
 
@@ -870,7 +870,7 @@ After uploading code, the serial monitor prints the distance values and refreshe
 
 
 
-### 7.8 NFC Sensor
+### 7.8 RFID Sensor
 
 #### 7.8.1 Overview
 
@@ -934,28 +934,25 @@ There are two ways to upload the code: directly open the code file we provide; o
 
 ![image-20240701131338008](./media/6-8-4-1-2.png)
 
-5. In ![control](./media/variable.png), place ![j9](./media/j9.png) in ![j2](./media/j2.png)
-
-6. In ![rfid](./media/rfid.png), put ![j21](./media/j28.png) in the right box of block ![j9](./media/j9.png)
-
-7. In ![control](./media/control.png), add a ![j25](./media/j25.png) under ![image-20240701131625149](./media/6-8-4-1-1.png)
-
-8. In ![operator](./media/operator.png), put ![j22](./media/j30.png) into the condition box of ![j25](./media/j25.png)
-
-9. In ![operator](./media/operator.png), put ![j22](./media/j29.png) into the condition box of ![j25](./media/j30.png)
+6. In ![control](./media/variable.png), place ![j9](./media/j9.png) in ![j2](./media/j2.png)
+7. In ![rfid](./media/rfid.png), put ![j21](./media/j28.png) in the right box of block ![j9](./media/j9.png)
+8. In ![control](./media/control.png), add a ![j25](./media/j25.png) under ![image-20240701131625149](./media/6-8-4-1-1.png)
+9. In ![operator](./media/operator.png), put ![j22](./media/j30.png) into the condition box of ![j25](./media/j25.png)
+10. In ![operator](./media/operator.png), put ![j22](./media/j29.png) into the condition box of ![j25](./media/j30.png)
 
 ![image-20240701131910235](./media/6-8-4-1-3.png)
 
-10. In ![control](./media/variable.png), put ![j9](./media/j8.png) into the left part of ![j22](./media/j29.png)
-11. In ![image-20240701132101678](./media/data.png), put ![j9](./media/j31.png) into the right part of ![j22](./media/j29.png) and modify the conversion value to “0” and conversion type to "string".
+11. In ![control](./media/variable.png), put ![j9](./media/j8.png) into the left part of ![j22](./media/j29.png)
+
+12. In ![image-20240701132101678](./media/data.png), put ![j9](./media/j31.png) into the right part of ![j22](./media/j29.png) and modify the conversion value to “0” and conversion type to "string".
 
 ![image-20240701132257387](./media/6-8-4-1-4.png)
 
-12. In ![serial](./media/serial.png), find ![j13](./media/j13.png) and put it into ![image-20240701132431720](./media/6-8-4-1-5.png), and modify the printing content into “RFID:” and set printing mode to no-warp.
+13. In ![serial](./media/serial.png), find ![j13](./media/j13.png) and put it into ![image-20240701132431720](./media/6-8-4-1-5.png), and modify the printing content into “RFID:” and set printing mode to no-warp.
 
-13. Drag another ![j13](./media/j13.png), and then add a variable block ![j9](./media/j8.png) into the printing content box.
+14. Drag another ![j13](./media/j13.png), and then add a variable block ![j9](./media/j8.png) into the printing content box.
 
-	As follows:
+As follows:
 
 ![image-20240701132734670](./media/6-8-4-1-6.png)
 
@@ -1017,14 +1014,15 @@ There are two ways to upload the code: directly open the code file we provide; o
 
 6. In ![image-20240701141246757](./media/joy.png), find and drag block ![j14](./media/j33.png) into the printing content box of ![j13](./media/6-9-4-1-1.png) , set pin to IO35 and axis to X
 
-   ![image-20240701142141328](./media/6-9-4-1-2.png)
+   ![image-20241017090054348](./media/6-9-4-1-2.png)
+
+   
 
 7. Duplicate block ![image-20240701142500257](./media/6-9-4-1-3.png), and modify the printing content “X:” into “    Y:”(the two spaces separates the two values to be output). Change pin to IO39 and set axis to Y.
 
 8. Add a delay of 0.3s for better observing results. 
 
    
-
 
 **Complete Test Code**
 
@@ -1546,7 +1544,7 @@ There are two ways to upload the code: directly open the code file we provide; o
 
 After uploading code, the first pixel of ws2812 lights up in red.
 
-#####  7.15.5 Extension
+####  7.15.5 Extension
 
 Light up all LED circulating red, green, and blue.
 
@@ -1733,7 +1731,7 @@ The traffic light module limits the pedestrian and vehicular thoroughfare. It in
 
 **Green for Proceed:** Pedestrians and vehicles keep going with the abidance of traffic regulations.
 
-In this project, you can program on Arduino development board to control a mini traffic light. For instance, set the duration of each lights and the interval time among them. Besides, you may also add a timer to alter light colors to schedule.
+In this project, you can program on ESP32 Coding Boxto control a mini traffic light. For instance, set the duration of each lights and the interval time among them. Besides, you may also add a timer to alter light colors to schedule.
 
 #### 7.17.2 Test Code
 
@@ -1802,7 +1800,7 @@ In this way, ambient light can be simulated by changing LED brightness along wit
 
 PWM controls analog output via digital means, which are able to adjust the duty cycle of the wave (a signal circularly shifting between high level and low level).
 
-For Arduino, digital ports of voltage output are LOW and HIGH, which respectively correspond to 0V and 5V. Generally, we define LOW as 0 and HIGH as 1. Arduino will output 500 signals of 0 or 1 within 1s. If they are 500 “1”s, 5V will be output. Oppositely, if they are all 0s, the output will be 0V. Or if they are 010101010101…, the average output will be 2.5V. In other words, output ratio of 0 and 1 affects the voltage value. 
+digital ports of voltage output are LOW and HIGH, which respectively correspond to 0V and 5V. Generally, we define LOW as 0 and HIGH as 1. will output 500 signals of 0 or 1 within 1s. If they are 500 “1”s, 5V will be output. Oppositely, if they are all 0s, the output will be 0V. Or if they are 010101010101…, the average output will be 2.5V. In other words, output ratio of 0 and 1 affects the voltage value. 
 
 Honestly, it differs from real continuous output, yet the more 0 and 1 signals are output per unit time, the more accurate the control will be.
 
@@ -2739,7 +2737,7 @@ After uploading code, the arrow on the OLED will nearly point to the South. Move
 
 #### 7.34.1 Overview
 
-ESP32 boasts a built-in Wi-Fi and Bluetooth nodule that is widely used in Internet of Things (IoT). With this function, it can remotely control the data transmission through the wireless network. Generally, developers program via an Arduino IDE or ESP-IDF to connect the ESP32 to the Internet via a WiFi connection to a router.
+ESP32 boasts a built-in Wi-Fi and Bluetooth nodule that is widely used in Internet of Things (IoT). With this function, it can remotely control the data transmission through the wireless network. 
 
 In applications, ESP32 can be used as a client to connect to a Wi-Fi network, or as a hotspot to create its own network. Through these connections, ESP32 receives commands to control external devices, such as turning on/off lights and adjusting temperature. In the code, protocols like HTTP and MQTT are used to communicate with the server to achieve data sending and receiving, so as to remotely control and monitoring.
 

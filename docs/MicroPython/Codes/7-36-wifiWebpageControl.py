@@ -8,6 +8,7 @@ import socket
 import time
 import machine
 from machine import Pin, PWM
+from servo import Servo
 
 # WiFi connection information
 SSID = 'test1'  # your WiFi name
@@ -18,7 +19,7 @@ ledRed = Pin(23, Pin.OUT)
 ledYellow = Pin(26, Pin.OUT)
 ledGreen = Pin(27, Pin.OUT)
 
-servo = PWM(Pin(25), freq=50)
+servo = Servo(pin=25)
 
 MA = Pin(18, Pin.OUT)
 MB = Pin(17, Pin.OUT)
@@ -90,9 +91,9 @@ def handle_request(request):
     elif 'ledGreen_off' in request:
         ledGreen.value(0)
     elif 'servo_left' in request:
-        servo.duty(0)  # rotate to left
+        servo.set_angle(0)  # rotate to left
     elif 'servo_right' in request:
-        servo.duty(180)  # rotate to right
+        servo.set_angle(180)  # rotate to right
     elif 'fan_on' in request:
         MA.value(1)
         MB.value(0)

@@ -10,9 +10,8 @@ import time
 
 scl = Pin(22)
 sda = Pin(21)
-bus = 0		#specify the number of the I2C bus
 #create an ak8975c object, initialize I2C bus and SCL and SDA pin
-Triaxial = ak8975c(bus, scl, sda)
+Triaxial = ak8975c(scl, sda)
 
 while True:
     Triaxial.measure()  # measure values
