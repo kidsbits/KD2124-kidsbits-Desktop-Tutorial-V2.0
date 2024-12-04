@@ -1,5 +1,7 @@
 # ESP32 Coding Box
 
+![](./media/a1.jpeg)
+
 ## 1. Introduction
 
 Based on ESP32, this coding box is a learning toolbox for children over 6 years old, as a shell wraps its circuit board, avoiding pins scratched children. 
