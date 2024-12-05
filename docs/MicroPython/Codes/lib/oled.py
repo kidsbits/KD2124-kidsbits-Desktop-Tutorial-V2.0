@@ -1,5 +1,5 @@
 import machine
-import ssd1306
+import ssh1106
 
 arrow_D = [
     0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
@@ -279,14 +279,14 @@ class OLED:
         self.width = width
         self.height = height
         self.addr = addr
-        self.oled = ssd1306.SSD1306_I2C(self.width, self.height, self.i2c, self.addr)
+        self.oled = ssh1106.SSH1106(self.i2c,self.width, self.height,  self.addr)
 
     def clear(self):
         self.oled.fill(0)
         self.oled.show()
 
     def show_text(self, text, x=0, y=0):
-        self.oled.text(text, x, y)
+        self.oled.text(text, x+1, y)
         self.oled.show()
 
     def show_image(self, image, x=0, y=0):

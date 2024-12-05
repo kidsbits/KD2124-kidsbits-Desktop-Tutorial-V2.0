@@ -1,4 +1,4 @@
-# KidsBlock Desktop Tutorial
+## KidsBlock Desktop Tutorial
 
 ## 1. KidsBlock Desktop Graphical Programming
 
@@ -1600,11 +1600,9 @@ Besides, it features large viewing Angle, low power consumption, high contrast, 
 
 Communication mode: I2C communication
 
-Internal driver chip: SSD1306
+Internal driver chip: SSH1106
 
 Resolution: 128 x 64
-
-
 
 
 
@@ -1637,14 +1635,6 @@ Resolution: 128 x 64
 7. ![](./media/j59.png) 
 
 	This block refreshes OLED display. This block should be added after your settings. Otherwise, they are invalid.
-
-8. ![QQ_1721202248225](./media/j60.png) 
-
-	This block shows scrolling text on the display. You can set the scrolling direction.
-
-9. ![QQ_1721202264020](./media/j61.png) 
-
-	This block stops the scrolling of the text.
 
 #### 7.16.4 Test Code
 
@@ -1685,39 +1675,6 @@ There are two ways to upload the code: directly open the code file we provide; o
 After uploading code, you will see the OLED shows the text you set. Here we maintain it as default, so it displays “Hello KidsBlock”, as shown below:
 
 ![6-16-4-2](./media/6-16-4-2.png)
-
-####  7.16.5 Extension
-
-Scroll text on OLED display.
-
-##### 7.16.5.1 Test Code
-
-There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
-
-**Directly open the code file we provide:**
-
-1. Click ![](./media/j68.png) and choose `Load from your computer`
-
-![](./media/j67.png)
-
-2. We have already downloaded the codes on computer desktop, so open the file and choose `7-16-oled2.sb3`
-
-**Manually build blocks:**
-
-Open code `7-16-oled.sb3`, and we make some changes on it:
-
-1. Drag and put ![QQ_1721202248225](./media/j60.png)under ![](./media/j53.png), and set y1 to “64”.
-2. Remove block ![](./media/j59.png). If it keeps refreshing, the text strings will not scroll.
-
-**Complete Test Code**
-
-![QQ_1721354861079](./media/6-16-5-1.png)
-
-##### 7.16.5.2 Test Result
-
-After uploading code, you will see the text is scrolling to right on the display. 
-
-
 
 ### 7.17 Traffic Light
 

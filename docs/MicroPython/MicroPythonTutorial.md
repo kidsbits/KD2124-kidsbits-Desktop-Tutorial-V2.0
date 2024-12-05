@@ -1,4 +1,4 @@
-# MicroPython Tutorial
+## MicroPython Tutorial
 
 MicroPython is a stripped-down version of Python 3 language, which includes a small portion of the Python standard library. It can run in microcontrollers and restricted environments after being optimized. Here are the main features of MicroPython:
 
@@ -1717,7 +1717,7 @@ Resolution: 128 x 64
 
 Open **7-16-oled.py**.
 
-Before uploading code, library is required. In lib file, open **oled.py** and **ssd1306**, and choose *Upload to /*.
+Before uploading code, library is required. In lib file, open **oled.py** and **ssH1106**, and choose *Upload to /*.
 
 ![0](./media/7-16-1.png)
 
