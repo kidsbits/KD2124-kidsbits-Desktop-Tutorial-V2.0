@@ -1,6 +1,6 @@
 # ESP32 Coding Box
 
-![](./media/a1.jpeg)
+![a](./media/a.png)
 
 ## 1. Introduction
 
