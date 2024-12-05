@@ -1,4 +1,4 @@
-## KidsBlock Desktop Tutorial
+# KidsBlock Desktop Tutorial
 
 ## 1. KidsBlock Desktop Graphical Programming
 

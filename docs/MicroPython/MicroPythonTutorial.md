@@ -1,4 +1,4 @@
-## MicroPython Tutorial
+# MicroPython Tutorial
 
 MicroPython is a stripped-down version of Python 3 language, which includes a small portion of the Python standard library. It can run in microcontrollers and restricted environments after being optimized. Here are the main features of MicroPython:
 
