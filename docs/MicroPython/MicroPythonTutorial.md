@@ -1,17 +1,24 @@
 # MicroPython Tutorial
 
-MicroPython is a stripped-down version of Python 3 language, which includes a small portion of the Python standard library. It can run in microcontrollers and restricted environments after being optimized. Here are the main features of MicroPython:
+MicroPython is a stripped-down version of Python 3 language, which includes a small portion of the Python standard library. It can run in microcontrollers and restricted environments after being optimized. 
 
-1. **Compatibility**: MicroPython strives to be as compatible as possible with normal Python (CPython), which means that if you know Python, you already know the basics of MicroPython. 
-2. **Hardware access**: In addition to core Python libraries, MicroPython includes modules such as "machines" for accessing low-level hardware, giving developers direct control over the hardware resources of the microcontroller. 
-3. **Interactive prompt (REPL)**: MicroPython provides an interactive prompt (REPL) so that users execute commands directly from a desktop computer on an embedded platform. This is very useful for fast real-time testing and debugging of embedded systems. 
-4. **Multi-threading support**: MicroPython firmware supports multi-threading, which enables a single microcontroller to handle multiple embedded tasks simultaneously, thus speeding up the executions.
-5. **Open source project**: MicroPython is an open source project whose source code is available on Github. It follows the MIT license and is free to use for educational and commercial purposes. 
-6. **Wide support**: MicroPython supports a variety of microcontroller boards and RTOS (real-time operating systems), such as ESP32, ESP8266, STM32, etc. In addition, it also provides rich libraries and modules to meet different development needs. 
+Here are the main features of MicroPython:
+
+**Compatibility**: MicroPython strives to be as compatible as possible with normal Python (CPython), which means that if you know Python, you already know the basics of MicroPython. 
+
+**Hardware access**: In addition to core Python libraries, MicroPython includes modules such as "machines" for accessing low-level hardware, giving developers direct control over the hardware resources of the microcontroller. 
+
+**Interactive prompt (REPL)**: MicroPython provides an interactive prompt (REPL) so that users execute commands directly from a desktop computer on an embedded platform. This is very useful for fast real-time testing and debugging of embedded systems. 
+
+**Multi-threading support**: MicroPython firmware supports multi-threading, which enables a single microcontroller to handle multiple embedded tasks simultaneously, thus speeding up the executions.
+
+**Open source project**: MicroPython is an open source project whose source code is available on Github. It follows the MIT license and is free to use for educational and commercial purposes. 
+
+**Wide support**: MicroPython supports a variety of microcontroller boards and RTOS (real-time operating systems), such as ESP32, ESP8266, STM32, etc. In addition, it also provides rich libraries and modules to meet different development needs. 
 
 ## 1. Download Thonny
 
-#### Windows
+#### 1.1 Windows
 
 **OS: Windows 10**
 
@@ -23,7 +30,7 @@ Move your mouse to “Windows” and you will see the optional versions.
 
 ![1102](./media/6-1-2-2.png)
 
-#### MAC
+#### 1.2 MAC
 
 Similar to Windows.
 
@@ -55,7 +62,7 @@ Two methods:
 
 Please just install according to your needs.
 
-#### Installer
+#### 2.1 Installer
 
 Here we demonstrate how to install `Installer with 64-bit Python 3.10` on <span style="background:#ff0;color:#000">64bit Windows 10</span>.
 
@@ -99,7 +106,7 @@ Here we demonstrate how to install `Installer with 64-bit Python 3.10` on <span 
 
 ![1214](./media/6-1-18.png)
 
-#### Portable Variant
+#### 2.2 Portable Variant
 
 Here we demonstrate how to install `Portable variant with 64-bit Python 3.10` on <span style="background:#ff0;color:#000">64bit Windows 10</span>.
 
@@ -123,7 +130,7 @@ Shortcut: ![1216](./media/6-1-21.png)
 
 During installing, please connect the coding box to the computer!
 
-#### Windows：
+#### 3.1 Windows：
 
 [Click here to download Windows CH340 driver.](./Windows.zip)
 
@@ -159,7 +166,7 @@ As follows:
 
 ![](./media/6-3-2-2.png)
 
-#### MAC：
+#### 3.2 MAC：
 
 [Click here to download MAC CH340 driver.](./MAC.zip)
 
@@ -253,9 +260,9 @@ F. Click `install` and wait.
 
 ![QQ_1722307359022](./media/6-4-8.png)
 
-## 5 .Thonny
+## 5 .Getting started with Thonny
 
-#### Interface
+#### 5.1 Interface
 
 Click **View** and tick **Files** to open the file path management.
 
@@ -263,7 +270,7 @@ Click **View** and tick **Files** to open the file path management.
 
 ![1402](./media/6-5-2-2.png)
 
-#### Toolbar
+#### 5.2 Toolbar
 
 ![1403](./media/6-5-3.png)
 
@@ -290,7 +297,7 @@ Click to download the zip file of codes, including codes of projects for MicroPy
 
 Download code . Here we save it on our desktop.
 
-### Test：
+### 6.1 Test：
 
 Click Files and you will see This computer . Copy and paste the file into `Codes`. 
 

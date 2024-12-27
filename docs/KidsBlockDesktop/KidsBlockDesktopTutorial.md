@@ -1,42 +1,46 @@
 # KidsBlock Desktop Tutorial
 
-## 1. KidsBlock Desktop Graphical Programming
+## 1. Introduction to KidsBlock
 
 KidsBlock Desktop is a graphical programming tool designed to help children and beginners learn programming. It uses a visual programming interface to build programs by dragging code blocks rather than writing codes directly. This is especially suitable for users without programming background, as it simplifies the process and lowers the learning threshold.
 
 **Main Features:**
 
-1. **Graphical interface**: Users create programs by dragging code blocks with different functions (such as loops, conditional judgments, variables, etc.), rather than learning complex code syntax issues. 
-2. **Educational orientation**: It is designed for children and teens with a user-friendly interface, and it helps them learn programming thinking and logic in fun.
-3. **Interactive learning**: Through graphical programming, children see how the programs they write process and respond in real time, increasing the joy and interactivity.
-4. **Diversified functional blocks**: It provides a wealth of blocks for the creation of different types of programs and projects, including simple animations, games and gadgets.
-5. **Easy to expand**: Some versions of KidsBlock are able to extend the functionality through custom modules or plug-ins, thus providing more programming possibilities.
+​	**A. Graphical interface**: Users create programs by dragging code blocks with different functions (such as loops, conditional 			judgments, variables, etc.), rather than learning complex code syntax issues. 
+
+​	**B. Educational orientation**: It is designed for children and teens with a user-friendly interface, and it helps them learn 			programming thinking and logic in fun.
+
+​	**C. Interactive learning**: Through graphical programming, children see how the programs they write process and respond in 			real time, increasing the joy and interactivity.
+
+​	**D. Diversified functional blocks**: It provides a wealth of blocks for the creation of different types of programs and projects, 			including simple animations, games and gadgets.
+
+​	**E. Easy to expand**: Some versions of KidsBlock are able to extend the functionality through custom modules or plug-ins, thus 			providing more programming possibilities.
 
 With graphical programming, KidsBlock Desktop aims to stimulate children's interest in programming and develop their problem-solving and logical thinking skills.
 
 ## 2. Install Kidsblock on Windows
 
-1.Download Kidsblock package: [http://xiazai.keyesrobot.cn/KidsBlock.exe](http://xiazai.keyesrobot.cn/KidsBlock.exe)
+2.1 Download Kidsblock package: [http://xiazai.keyesrobot.cn/KidsBlock.exe](http://xiazai.keyesrobot.cn/KidsBlock.exe)
 
-2.Click “KidsBlock Desktop.exe”.
+2.2 Click “KidsBlock Desktop.exe”.
 
 ![k1](./media/k1.png)
 
-3.Tick “**Anyone who uses this computer(all users)**” and click “**Next**”.
+2.3 Tick “**Anyone who uses this computer(all users)**” and click “**Next**”.
 
 ![img](./media/k2.jpg)
 
-4.Click “**Browse...**” to choose a path for the software (here we choose Disk C) and then “**Install**”.
+2.4 Click “**Browse...**” to choose a path for the software (here we choose Disk C) and then “**Install**”.
 
 ![k3](./media/k3.png)
 
 ![k4](./media/k4.png)
 
-5.Click “Finish” and open Kidsblock.
+2.5 Click “Finish” and open Kidsblock.
 
 ![5](./media/k5.png)
 
-6.If a warning interface pops up, just “**Allow access**”. 
+2.6 If a warning interface pops up, just “**Allow access**”. 
 
 ​	Main interface of Kidsblock:
 
@@ -46,33 +50,33 @@ With graphical programming, KidsBlock Desktop aims to stimulate children's inter
 
 ## 3. Install Kidsblock on MacOS
 
-1.Download Kidsblock package: [https://xiazai.keyesrobot.cn/KidsBlock.dmg](https://xiazai.keyesrobot.cn/KidsBlock.dmg)
+3.1Download Kidsblock package: [https://xiazai.keyesrobot.cn/KidsBlock.dmg](https://xiazai.keyesrobot.cn/KidsBlock.dmg)
 
 ![k7](./media/k7.png)
 
-2.After downloading, Click KidsBlock. Drag the icon of KidsBlock Desktop into Applications.
+3.2 After downloading, Click KidsBlock. Drag the icon of KidsBlock Desktop into Applications.
 
 ![8](./media/k8.png)
 
-3.After installation, you can see the icon of KidsBlock.
+3.3 After installation, you can see the icon of KidsBlock.
 
 ![k9](./media/k9.png)
 
 
 
-## 4. Kidsblock
+## 4. Getting started with KidsBlock
 
 (**Here we demonstrate on Windows, and it can be a reference for MacOS.**)
 
-### 1. Main Interface Functions 1
+### 4.1  Main Interface Functions 1
 
 ![k10](./media/k10.png)
 
-### 2. Languages
+### 4.2 Languages
 
 Click ![img](./media/k11.jpg) to choose “English” or “简体中文”: ![image-k12](./media/k12.png)
 
-### 3. Driver
+### 4.3 Driver
 
 **NOTE: If the driver has already installed on your computer, please skip the following steps.**
 
@@ -130,7 +134,7 @@ M. Wait for the completion of driver installing. And click “**OK**”.
 
 ![k26](./media/k26.png)
 
-### 4. Development Board
+### 4.4 Development Board
 
 Click ![img](./media/k27.jpg) to choose a control board. We have integrated the board we need in this software: click “Kit” and find “ESP32 coding box” to “**Connect**”. After connecting, “**Go to Editor**”. 
 
@@ -144,13 +148,13 @@ Click ![img](./media/k27.jpg) to choose a control board. We have integrated the 
 
 ![](./media/k34.png)
 
-### 5. Serial Port
+### 4.5 Serial Port
 
 If the ESP32 board is connected but ![img](./media/k28.jpg) does not change into ![](./media/k30.png), we need to set a COM port manually. 
 
 Click ![img](./media/k28.jpg) and “**Connect**”. When you see "connected", the port is set.
 
-![](./media/k36.png)
+![](./media/k3 6.png)
 
 ![](./media/k32.png)
 
@@ -162,11 +166,11 @@ Disconnection: click ![](./media/k30.png) and “**Disconnect**”.
 
 ![](./media/k41.png)
 
-### 6. Main Interface Functions 2
+### 4.6 Main Interface Functions 2
 
 ![](./media/k42.jpg)
 
-### 7. Extensions
+### 4.7 Extensions
 
 **NOTE: All required modules are integrated in main board, so this section is for reference.**
 
@@ -184,13 +188,13 @@ If you want to remove it, enter ![img](./media/k43.jpg) and click ![img](./media
 
 ![img](./media/k47.jpg)![img](./media/k46.png)   ![img](./media/k45.jpg) 
 
-### 8. Code
+### 4.8 Code
 
 **Method 1:**
 
 [click here to download codes](./codes.zip)
 
-Click the SB3 file you want to load. If you want to open ![](./media/k50.png), click it to directly load to the software. After that, connect to the board and port.
+Click the .sd3 file you want to load. If you want to open ![](./media/k50.png), click it to directly load to the software. After that, connect to the board and port.
 
 ![](./media/k54.png)
 
@@ -208,7 +212,7 @@ Open Kidsblock and click “**file**” to choose “**Load from your computer**
 
 ## 5.Upload Code and Set Baud Rate
 
-### 1. Upload Code
+### 5.1 Upload Code
 
 Load ![](./media/k50.png) into Kidsblock, and set the development board and port. Click ![image-20230425155752592](./media/k55.png).
 
@@ -220,7 +224,7 @@ After uploading, the printing box of Kidsblock prints “Hello KidsBlock”.
 
 ![](./media/k58.png)
 
-### 2. Set Baud Rate
+### 5.2 Set Baud Rate
 
 Set printing box: ![](./media/k59.png)
 
@@ -242,7 +246,7 @@ Click to download the compressed code file and extract it, then store it on the 
 
 [click here to download](./codes.zip)
 
-## 7. ESP32 Coding Box
+## 7. Tutorial of KidsBlock
 
 ### 7.1 LED Blink
 
@@ -2791,6 +2795,12 @@ Web page:
 
 **Complete Test Code**
 
+上传代码前请修改自己的WiFi名称和密码![](./media/j63.png)
+
+<p style="color:red">Please note: The ESP32 can only connect to WiFi with a frequency of 2.4GHz.</p>
+
+
+
 ![6-34-3](./media/6-34-4.png)
 
 #### 7.34.5 Test Result
@@ -2813,9 +2823,7 @@ Mobile:
 
 In this project, we display the values of temperature and humidity sensor, pressure sensor, photoresistor, sound sensor, PIR motion sensor and ultrasonic sensor on the web page. 
 
-#### 7.35.2 Test Code
-
-##### 7.35.2.1  Build Code
+#### 7.35.2  Build Code
 
 There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
 
@@ -2839,9 +2847,17 @@ There are two ways to upload the code: directly open the code file we provide; o
 
    
 
+**Complete Test Code**
+
+Please modify your WiFi name and password before uploading the code![](./media/j63.png)
+
+<p style="color:red">Please note: The ESP32 can only connect to WiFi with a frequency of 2.4GHz.</p>
+
+
+
 ![6-35-2-1](./media/6-35-2-1.png)
 
-##### 7.35.2.2 Test Result
+#### 7.35.3 Test Result
 
 Upload the code, and the OLED shows the IP address after connecting to wifi. 
 
@@ -2859,9 +2875,7 @@ If you are using a mobile phone hotspot, you can directly access the IP via the 
 
 We control LED, servo and the fan on the web page button wirelessly. 
 
-#### 7.36.2 Test Code
-
-##### 7.36.2.1 Build Code
+#### 7.36.2 Build Code
 
 There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
 
@@ -2889,9 +2903,15 @@ There are two ways to upload the code: directly open the code file we provide; o
 
 **Complete Test Code**
 
+Please modify your WiFi name and password before uploading the code![](./media/j63.png)
+
+<p style="color:red">Please note: The ESP32 can only connect to WiFi with a frequency of 2.4GHz.</p>
+
+
+
 ![6-36-2-1](./media/6-36-2-1.png)
 
-#####    7.36.2.2 Test Result
+#### 7.36.3 Test Result
 
 Upload the code, and the OLED shows the IP address after connecting to wifi. 
 
@@ -2907,9 +2927,7 @@ Connect your computer/mobile phone and ESP32 to the same wifi, and you can acces
 
 In this project, we set seven buttons to control the speaker to play tones of Do, Re, Mi, Fa, So, La, Si.
 
-#### 7.37.2 Test Code
-
-##### 7.37.2.1 Build Code
+#### 7.37.2 Build Code
 
 There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
 
@@ -2928,9 +2946,15 @@ There are two ways to upload the code: directly open the code file we provide; o
 
 **Complete Test Code**
 
+Please modify your WiFi name and password before uploading the code![](./media/j63.png)
+
+<p style="color:red">Please note: The ESP32 can only connect to WiFi with a frequency of 2.4GHz.</p>
+
+
+
 ![6-37-2-1](./media/6-37-2-1.png)
 
-##### 7.37.2.2 Test Result
+#### 7.37.3 Test Result
 
 Upload the code, and the OLED shows the IP address after connecting to wifi. 
 
@@ -2946,9 +2970,7 @@ Connect your computer/mobile phone and ESP32 to the same wifi, and you can acces
 
 Combined web buttons and wireless control, this control panel in this project is able to control modules and read module values as well. 
 
-#### 7.38.2 Test Code
-
-##### 7.38.2.1 Build Code
+#### 7.38.2 Build Code
 
 There are two ways to upload the code: directly open the code file we provide; or manually build blocks.
 
@@ -2968,12 +2990,17 @@ There are two ways to upload the code: directly open the code file we provide; o
 
 3. Define button names and functions through block![QQ_1722222062997](./media/j66.png)
 
-
 **Complete Test Code**
+
+Please modify your WiFi name and password before uploading the code![](./media/j63.png)
+
+<p style="color:red">Please note: The ESP32 can only connect to WiFi with a frequency of 2.4GHz.</p>
+
+
 
 ![6-38-2-1](./media/6-38-2-1.png)
 
-##### 7.38.2.2 Test Result
+#### 7.38.3 Test Result
 
 Upload the code, and the OLED shows the IP address after connecting to wifi. 
 
