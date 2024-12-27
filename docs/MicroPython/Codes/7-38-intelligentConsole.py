@@ -12,8 +12,8 @@ from machine import Pin, PWM, ADC, SoftI2C
 import aht20
 
 # WiFi connection information
-SSID = 'ChinaNet_2.4G'  # your WiFi name
-PASSWORD = 'ChinaNet@233'  # your WiFi password
+SSID = 'your WiFi name'  # your WiFi name
+PASSWORD = 'your WiFi password'  # your WiFi password
 
 
 # Initialize executer

@@ -11,8 +11,8 @@ from machine import Pin, PWM
 from servo import Servo
 
 # WiFi connection information
-SSID = 'test1'  # your WiFi name
-PASSWORD = '88888888'  # your WiFi password
+SSID = 'your WiFi name'  # your WiFi name
+PASSWORD = 'your WiFi password'  # your WiFi password
 
 # initialize executer
 ledRed = Pin(23, Pin.OUT)

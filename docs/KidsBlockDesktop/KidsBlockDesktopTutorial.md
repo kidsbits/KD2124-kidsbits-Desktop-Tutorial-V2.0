@@ -240,7 +240,7 @@ If there is no output or it outputs garbled words, please click ![](./media/k62.
 
 
 
-## 6. Tutorial Download
+## 6. Codes Download
 
 Click to download the compressed code file and extract it, then store it on the computer desktop.
 
@@ -2795,7 +2795,7 @@ Web page:
 
 **Complete Test Code**
 
-上传代码前请修改自己的WiFi名称和密码![](./media/j63.png)
+Please modify your WiFi name and password before uploading the code![](./media/j63.png)
 
 <p style="color:red">Please note: The ESP32 can only connect to WiFi with a frequency of 2.4GHz.</p>
 

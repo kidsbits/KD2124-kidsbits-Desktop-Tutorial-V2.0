@@ -2937,6 +2937,15 @@ espressif official: https://www.espressif.com.cn/en/home
 
 ####  7.34.3 Test Code
 
+Please modify your WiFi name and password before uploading the code
+
+```python
+SSID = 'your WiFi name'  # your WiFi name
+PASSWORD = 'your WiFi password'  # your WiFi password
+```
+
+<p style="color:red">Please note: The ESP32 can only connect to WiFi with a frequency of 2.4GHz.</p>
+
 In Files, open **7-34-wifi.py** and click ![](media/run.jpg).
 
 **Code:**
@@ -3037,6 +3046,15 @@ In this project, we display the values of temperature and humidity sensor, press
 
 #### 7.35.2 Test Code
 
+Please modify your WiFi name and password before uploading the code
+
+```python
+SSID = 'your WiFi name'  # your WiFi name
+PASSWORD = 'your WiFi password'  # your WiFi password
+```
+
+<p style="color:red">Please note: The ESP32 can only connect to WiFi with a frequency of 2.4GHz.</p>
+
 In Files, open **7-35-wifiWebpageDisplay.py** and click ![](media/run.jpg).
 
 **Code:**
@@ -3056,10 +3074,8 @@ from machine import Pin, ADC, I2C,SoftI2C,PWM
 import aht20
 
 # WiFi connection information
-# SSID = 'your WiFi name'  # your WiFi name
-# PASSWORD = 'your WiFi password'  # your WiFi password
-SSID = 'ChinaNet_2.4G'  # your WiFi name
-PASSWORD = 'ChinaNet@233'  # your WiFi password
+SSID = 'your WiFi name'  # your WiFi name
+PASSWORD = 'your WiFi password'  # your WiFi password
 
 # initialize sensor
 # photoresistor
@@ -3242,8 +3258,8 @@ from machine import Pin, PWM
 from servo import Servo
 
 # WiFi connection information
-SSID = 'test1'  # your WiFi name
-PASSWORD = '88888888'  # your WiFi password
+SSID = 'your WiFi name'  # your WiFi name
+PASSWORD = 'your WiFi password'  # your WiFi password
 
 # initialize executer
 ledRed = Pin(23, Pin.OUT)
@@ -3384,6 +3400,15 @@ Connect your computer/mobile phone and ESP32 to the same wifi, and you can acces
 In this project, we set seven buttons to control the speaker to play tones of Do, Re, Mi, Fa, So, La, Si.
 
 #### 7.37.2 Test Code
+
+Please modify your WiFi name and password before uploading the code
+
+```python
+SSID = 'your WiFi name'  # your WiFi name
+PASSWORD = 'your WiFi password'  # your WiFi password
+```
+
+<p style="color:red">Please note: The ESP32 can only connect to WiFi with a frequency of 2.4GHz.</p>
 
 In Files, open **7-37-wifiWebPiano.py** and click ![](media/run.jpg).
 
@@ -3539,6 +3564,15 @@ Combined web buttons and wireless control, this control panel in this project is
 
 #### 7.38.2 Test Code
 
+Please modify your WiFi name and password before uploading the code
+
+```python
+SSID = 'your WiFi name'  # your WiFi name
+PASSWORD = 'your WiFi password'  # your WiFi password
+```
+
+<p style="color:red">Please note: The ESP32 can only connect to WiFi with a frequency of 2.4GHz.</p>
+
 In Files, open **7-38-intelligentConsole.py** and click ![](media/run.jpg).
 
 **Code:**
@@ -3558,8 +3592,8 @@ from machine import Pin, PWM, ADC, SoftI2C
 import aht20
 
 # WiFi connection information
-SSID = 'ChinaNet_2.4G'  # your WiFi name
-PASSWORD = 'ChinaNet@233'  # your WiFi password
+SSID = 'your WiFi name'  # your WiFi name
+PASSWORD = 'your WiFi password'  # your WiFi password
 
 # Initialize executer
 ledRed = Pin(23, Pin.OUT)
