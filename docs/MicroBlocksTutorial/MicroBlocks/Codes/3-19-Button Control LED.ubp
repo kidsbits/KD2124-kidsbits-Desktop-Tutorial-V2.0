@@ -1,0 +1,1790 @@
+module main
+author unknown
+version 1 0 
+description ''
+variables value 
+
+script 100 50 {
+whenStarted
+forever {
+  if (cbox_adkey 'red') {
+    if (value == 0) {
+      cbox_setLED 'red' true
+      value = 1
+    } else {
+      cbox_setLED 'red' false
+      value = 0
+    }
+    waitMillis 300
+  }
+}
+}
+
+
+module 'Air Pressure (BMP388)' Input
+author MicroBlocks
+version 1 0 
+description ''
+variables _bmp388_addr _bmp388_basePressure _bmp388_baseAltitude 
+
+  spec 'r' 'bmp388_airPressureMbar' 'bmp388 air pressure (mBar)'
+  spec 'r' 'bmp388_temperature' 'bmp388 temperature (°C)'
+  space
+  spec 'r' 'bmp388_altitudeCentimeters' 'bmp388 altitude (cm)'
+  spec ' ' 'bmp388_setCurrentAltitude' 'bmp388 set current altitude _ meters' 'num' 0
+  space
+  spec ' ' '_bmp388_init' '_bmp388_init'
+  spec 'r' '_bmp388_altitudeMillimeters' '_bmp388_altitudeMillimeters'
+  spec 'r' '_bmp388_rawPressure' '_bmp388_rawPressure'
+  spec 'r' '_bmp388_rawTemp' '_bmp388_rawTemp'
+
+to '_bmp388_altitudeMillimeters' {
+  if (_bmp388_basePressure == 0) {
+    comment 'if base altitude not set, use zero (useful for relative measurments)'
+    bmp388_setCurrentAltitude 0
+  }
+  return ('[misc:pressureToAltitude]' ('_bmp388_rawPressure') _bmp388_basePressure)
+}
+
+to '_bmp388_init' {
+  if (_bmp388_addr != 0) {return}
+  _bmp388_addr = 118
+  comment 'Power down before changing settings'
+  i2cSet _bmp388_addr (hexToInt '1B') (hexToInt '0')
+  waitMillis 50
+  comment 'OSR selection:'
+  i2cSet _bmp388_addr (hexToInt '1C') ((0 << 3) | 4)
+  comment 'ODR selection:'
+  i2cSet _bmp388_addr (hexToInt '1D') 3
+  comment 'Filter coeffiecient selection:'
+  i2cSet _bmp388_addr (hexToInt '1F') 2
+  comment 'Enable temp and pressure, normal mode'
+  i2cSet _bmp388_addr (hexToInt '1B') (hexToInt '33')
+  comment 'Leave time to power up'
+  waitMillis 50
+}
+
+to '_bmp388_rawPressure' {
+  '_bmp388_init'
+  '[sensors:i2cWrite]' _bmp388_addr ('[data:makeList]' 4)
+  local 'tmp' ('[data:newByteArray]' 3)
+  '[sensors:i2cRead]' _bmp388_addr tmp
+  comment 'High 18-bits of 24-bit value.'
+  return (((at 3 tmp) << 10) | (((at 2 tmp) << 2) | ((at 1 tmp) >> 6)))
+}
+
+to '_bmp388_rawTemp' {
+  '_bmp388_init'
+  '[sensors:i2cWrite]' _bmp388_addr ('[data:makeList]' 7)
+  local 'tmp' ('[data:newByteArray]' 3)
+  '[sensors:i2cRead]' _bmp388_addr tmp
+  comment 'High 16-bits of 24-bit value.'
+  return ((((at 3 tmp) << 16) | ((at 2 tmp) << 8)) | (at 1 tmp))
+}
+
+to bmp388_airPressureMbar {
+  return ((10 * ('_bmp388_rawPressure')) / 1063)
+}
+
+to bmp388_altitudeCentimeters {
+  return ((('_bmp388_altitudeMillimeters') + 5) / 10)
+}
+
+to bmp388_setCurrentAltitude baseMeters {
+  '_bmp388_init'
+  local 'total' 0
+  comment 'Start regular sampling with filtering. Sampling rate is 75/9.'
+  repeat 20 {
+    total += ('_bmp388_rawPressure')
+    waitMillis 50
+  }
+  _bmp388_basePressure = (total / 20)
+  _bmp388_baseAltitude = baseMeters
+}
+
+to bmp388_temperature {
+  comment ((('_bmp388_rawTemp') - 6200000) / 100000)
+  comment ((('_bmp388_rawTemp') - 7095000) / 55000)
+  return ((('_bmp388_rawTemp') - 7130000) / 55000)
+}
+
+
+module 'Coding Box'
+author MicroBlocks
+version 1 4 
+depends '_Air Pressure (BMP388)' '_Distance (HC-SR04)' '_Magnetometer (AK8975)' '_RFID (RC522)' '_Temperature Humidity (AHT20)' NeoPixel Tone TFT WebPanel 
+choices cbox_joystick x y 
+choices cbox_ledOrButton red yellow green all 
+description 'KidsBits Coding Box 2.0
+https://kidsbits.cc/products/kidsbits-maker-educational-esp32-multi-purpose-coding-box-kit-v20
+'
+
+  spec ' ' 'cbox_setNeoPixelColors' 'cb set rainbow #BR# _ _ _ _ _ _ #BR# _ _ _ _ _ _' 'color color color color color color color color color color color color'
+  spec ' ' 'cbox_setAllNeoPixels' 'cb set all rainbow colors to _' 'color'
+  spec ' ' 'cbox_clearNeoPixels' 'cb clear rainbow colors'
+  space
+  spec ' ' 'cbox_oledWrite' 'cb oled write _ at x _ y _ big _' 'auto num num bool' 'Welcome!' 20 20 true
+  spec ' ' 'cbox_oledClear' 'cb clear oled'
+  space
+  spec ' ' 'cbox_setServo' 'cb set servo to _ degrees (0 to 180)' 'num' 90
+  space
+  spec ' ' 'cbox_setFan' 'cb set fan power _ (-100 to 100)' 'num' 50
+  spec ' ' 'cbox_stopFan' 'cb stop fan'
+  space
+  spec ' ' 'cbox_beep' 'cb speaker beep for _ millisecs' 'auto' 100
+  spec ' ' 'cbox_setLED' 'cb set _ LED to _' 'menu.cbox_ledOrButton bool' 'red' true
+  space
+  spec 'r' 'cbox_light' 'cb light'
+  spec 'r' 'cbox_loudness' 'cb sound'
+  spec 'r' 'cbox_motion' 'cb PIR motion detected?'
+  space
+  spec 'r' 'cbox_rfid' 'cb RFID'
+  spec 'r' 'cbox_distance' 'cb ultrasonic distance'
+  space
+  spec 'r' 'cbox_joystick' 'cb joystick _' 'menu.cbox_joystick' 'x'
+  spec 'r' 'cbox_adkey' 'cb _ ADKey button pressed?' 'menu.cbox_ledOrButton' 'red'
+  space
+  spec 'r' 'cbox_temperature' 'cb temperature'
+  spec 'r' 'cbox_humidity' 'cb humidity'
+  space
+  spec 'r' 'cbox_compass' 'cb compass direction'
+  space
+  spec 'r' 'cbox_airPressureMbar' 'cb barometric pressure (mBar)'
+  spec 'r' 'cbox_altitudeCentimeters' 'cb altitude (cm)'
+
+to cbox_adkey key {
+  local 'analogValue' (analogReadOp 33)
+  if (analogValue == 0) {
+    return (booleanConstant false)
+  } (analogValue < 500) {
+    return (key == 'green')
+  } (analogValue < 850) {
+    return (key == 'yellow')
+  } else {
+    return (key == 'red')
+  }
+}
+
+to cbox_airPressureMbar {
+  return (bmp388_airPressureMbar)
+}
+
+to cbox_altitudeCentimeters {
+  return (bmp388_altitudeCentimeters)
+}
+
+to cbox_beep msecs {
+  'attach buzzer to pin' 32
+  'play tone' 'nt;c' 0 msecs
+}
+
+to cbox_clearNeoPixels color {
+  neoPixelSetAllToColor 0
+}
+
+to cbox_compass {
+  return (ak9575_direction)
+}
+
+to cbox_distance {
+  return ('distance (cm)' 5 4)
+}
+
+to cbox_humidity {
+  return (aht20_humidity)
+}
+
+to cbox_joystick axis {
+  local 'result' 0
+  if ('x' == axis) {
+    result = (((analogReadOp 35) - 500) / 5)
+  } else {
+    result = (((analogReadOp 39) - 500) / 5)
+  }
+  if ((absoluteValue result) < 2) {
+    comment 'Suppress noise close to the home position'
+    result = 0
+  }
+  result = (maximum -100 (minimum result 100))
+  return result
+}
+
+to cbox_light {
+  return (analogReadOp 36)
+}
+
+to cbox_loudness {
+  return (analogReadOp 34)
+}
+
+to cbox_motion {
+  return (digitalReadOp 19)
+}
+
+to cbox_oledClear {
+  '[tft:clear]'
+}
+
+to cbox_oledWrite text x y isBig {
+  local 'scale' (ifExpression isBig 2 1)
+  '[tft:text]' text x y (colorSwatch 255 255 255 255) scale true
+  waitMillis 10
+}
+
+to cbox_rfid {
+  rc522_initialize_I2C 40
+  if (rc522_card_present) {
+    '_rc522_write_reg' (hexToInt '0D') 0
+    local 'res' ('_rc522_send_to_card' (hexToInt '0C') ('[data:makeList]' (hexToInt '93') (hexToInt '20')))
+    '[data:delete]' 1 res
+    '[data:delete]' 'last' res
+    return ('[data:joinStrings]' res '.')
+  } else {
+    return ''
+  }
+}
+
+to cbox_setAllNeoPixels color {
+  neoPixelSetAllToColor color
+}
+
+to cbox_setFan power {
+  if (power > 0) {
+    digitalWriteOp 17 false
+    analogWriteOp 18 (10 * (minimum power 100))
+  } (power < 0) {
+    analogWriteOp 17 (10 * (minimum (absoluteValue power) 100))
+    digitalWriteOp 18 false
+  } else {
+    digitalWriteOp 17 false
+    digitalWriteOp 18 false
+  }
+}
+
+to cbox_setLED led onOff {
+  if ('red' == led) {
+    digitalWriteOp 23 onOff
+  } ('yellow' == led) {
+    digitalWriteOp 26 onOff
+  } ('green' == led) {
+    digitalWriteOp 27 onOff
+  } ('all' == led) {
+    digitalWriteOp 23 onOff
+    digitalWriteOp 26 onOff
+    digitalWriteOp 27 onOff
+  }
+}
+
+to cbox_setNeoPixelColors c1 c2 c3 c4 c5 c6 c7 c8 c9 c10 c11 c12 {
+  neoPixelAttach 12 16
+  for i 12 {
+    atPut i _np_pixels (argOrDefault i (neoPixel_colorSwatch (colorSwatch 35 190 30 255)))
+  }
+  '_NeoPixel_update'
+}
+
+to cbox_setServo degrees {
+  degrees = (maximum 0 (minimum degrees 180))
+  local 'pulseWidth' (500 + ((2100 * degrees) / 180))
+  '[io:setServo]' 25 pulseWidth
+}
+
+to cbox_stopFan {
+  cbox_setFan 0
+}
+
+to cbox_temperature {
+  return (aht20_temperature)
+}
+
+
+module 'Distance (HC-SR04)' Input
+author 'Joan Guillén & Josep Ferràndiz'
+version 1 4 
+tags sensor 'hc-sr04' distance ultrasound 
+description 'Support for the HC-SR04 ultrasound distance sensor.'
+variables _sr04_last 
+
+  spec 'r' 'distance (cm)' 'distance (cm) trigger _ echo _' 'num num' 2 4
+  spec 'r' 'sr04_distanceOnePin' 'distance (cm) pin _' 'num' 0
+
+to 'distance (cm)' trig ech {
+  comment 'Contributed by Joan Guillén and Josep Ferràndiz'
+  digitalWriteOp trig false
+  waitMicros 2
+  digitalWriteOp trig true
+  waitMicros 50
+  digitalWriteOp trig false
+  local 'start' (microsOp)
+  waitUntil (or (not (digitalReadOp ech)) (((microsOp) - start) > 23320))
+  waitUntil (or (digitalReadOp ech) (((microsOp) - start) > 23320))
+  if (((microsOp) - start) > 23320) {
+    comment 'Distance sensor not ready; return the last distance reading'
+    return _sr04_last
+  }
+  comment 'Pulse sent. Measure time until echo is detected.'
+  start = (microsOp)
+  waitUntil (or (not (digitalReadOp ech)) (((microsOp) - start) > 23320))
+  _sr04_last = ((10 * ((microsOp) - start)) / 583)
+  comment 'Leave some time for reverberations to die away.'
+  waitMillis 10
+  return _sr04_last
+}
+
+to sr04_distanceOnePin pin {
+  return ('distance (cm)' pin pin)
+}
+
+
+module 'HTTP server' Comm
+author MicroBlocks
+version 1 3 
+depends WiFi 
+tags http network 
+description 'Create an HTTP server in MicroBlocks. You can use this library to allow remote control for your Wifi-enabled board.'
+
+  spec 'r' '[net:httpServerGetRequest]' 'HTTP server request : binary data _ : port _' 'bool num' false 8080
+  spec 'r' 'request method' 'method of request _' 'str' ''
+  spec 'r' 'path of request' 'path of request _' 'str' ''
+  spec 'r' 'headers of request' 'headers of request _' 'str' ''
+  spec 'r' 'body of request' 'body of request _' 'str' ''
+  spec 'r' 'content length of request' 'content length of request _' 'str' ''
+  spec ' ' '[net:respondToHttpRequest]' 'respond _ to HTTP request : with body _ : and headers _ : keepAlive _' 'str str str bool' '200 OK' 'Welcome to the MicroBlocks HTTP server' 'Content-Type: text/plain' false
+  spec 'r' '_endOfHeaders' '_end of headers _' 'str'
+  spec 'r' '_toString' '_toString _' 'auto' 'abc'
+
+to '_endOfHeaders' request {
+  return ('[data:find]' ('[data:unicodeString]' ('[data:makeList]' 13 10 13 10)) request)
+}
+
+to '_toString' aStringOrByteArray {
+  comment 'If argument is a byte array, convert it to a string. '
+  if (not (isType aStringOrByteArray 'string')) {
+    aStringOrByteArray = ('[data:join]' '' aStringOrByteArray)
+  }
+  return aStringOrByteArray
+}
+
+to 'body of request' request {
+  i = ('_endOfHeaders' request)
+  if (i < 0) {
+    return ''
+  }
+  return ('[data:copyFromTo]' request (i + 4))
+}
+
+to 'content length of request' request {
+  local 'i' ('_endOfHeaders' request)
+  if (i < 0) {
+    return 0
+  }
+  local 'j' ('[data:find]' 'Content-Length: ' request)
+  if (j < 0) {
+    comment 'Try alternate capitalization'
+    j = ('[data:find]' 'Content-length: ' request)
+  }
+  if (or (j < 0) (j > i)) {
+    return 0
+  }
+  j += 16
+  local 'k' ('[data:find]' ('[data:unicodeString]' 13) request j)
+  return (('[data:copyFromTo]' request j (k - 1)) + 0)
+}
+
+to 'headers of request' request {
+  i = ('_endOfHeaders' request)
+  if (i < 0) {
+    return ''
+  }
+  return ('_toString' ('[data:copyFromTo]' request 1 (i - 1)))
+}
+
+to 'path of request' request {
+  return ('_toString' ('[data:copyFromTo]' request (('[data:find]' ' ' request) + 1) (('[data:find]' ' HTTP' request) - 1)))
+}
+
+to 'request method' request {
+  return ('_toString' ('[data:copyFromTo]' request 1 (('[data:find]' ' ' request) - 1)))
+}
+
+
+module 'LED Display' Output
+author MicroBlocks
+version 1 13 
+choices led_imageMenu heart 'small heart' yes no happy sad confused angry asleep surprised silly fabulous meh 't-shirt' 'roller skate' duck house tortoise butterfly 'stick figure' ghost sword giraffe skull umbrella snake rabbit cow 'quarter note' 'eight note' pitchfork target triangle 'left triangle' 'chess board' diamond 'small diamond' square 'small square' scissors 
+description 'Display primitives for the 5x5 LED display on the BBC micro:bit, Calliope mini and M5Atom Matrix. Boards with TFT displays (such as the Citilab ED1 or the M5Stack family) support these primitives with a simulated "fat pixel" display.
+'
+variables _stop_scrolling_text 
+
+  spec ' ' '[display:mbDisplay]' 'display _' 'microbitDisplay' 15237440
+  spec ' ' 'led_displayImage' 'display image _ : x _ y _' 'menu.led_imageMenu num num' 'happy' 1 1
+  spec ' ' '[display:mbDisplayOff]' 'clear display'
+  space
+  spec ' ' '[display:mbPlot]' 'plot x _ y _' 'num num' 3 3
+  spec ' ' '[display:mbUnplot]' 'unplot x _ y _' 'num num' 3 3
+  space
+  spec ' ' 'displayCharacter' 'display character _' 'str' 'A'
+  spec ' ' 'scroll_text' 'scroll text _ : pausing _ ms' 'str num' 'HELLO ROSA!' 100
+  spec ' ' 'stopScrollingText' 'stop scrolling'
+  advanced
+  spec ' ' 'set display color' 'set display color _' 'color'
+  spec 'r' 'led_image' 'led image _' 'microbitDisplay' 15237440
+  space
+  spec 'r' '_led_namedImage' '_led_namedImage _' 'menu.led_imageMenu' 'happy'
+  spec 'r' '_led_imageData' '_led_imageData'
+
+to '_led_imageData' {
+  return 'heart:4685802,small heart:145728,yes:2269696,no:18157905,happy:15237440,sad:18284864,confused:22348096,angry:23036241,asleep:459616,surprised:4526090,silly:25984017,fabulous:15008639,meh:2236443,t-shirt:15154043,roller skate:11534104,duck:489702,house:10976708,tortoise:359872,butterfly:29332475,stick figure:18158564,ghost:23068334,sword:4657284,giraffe:10946627,skull:15171246,umbrella:6460398,snake:469859,rabbit:16104613,cow:4685361,quarter note:7573636,eight note:7590276,pitchfork:4357813,target:4681156,triangle:1026176,left triangle:32805985,chess board:11184810,diamond:4539716,small diamond:141440,square:33080895,small square:469440,scissors:20287859,'
+}
+
+to '_led_namedImage' name {
+  local 'data' ('_led_imageData')
+  local 'i' ('[data:find]' name data)
+  if (i == -1) {
+    comment 'Name not found'
+    return 0
+  }
+  local 'start' (('[data:find]' ':' data i) + 1)
+  local 'end' (('[data:find]' ',' data i) - 1)
+  return ('[data:convertType]' ('[data:copyFromTo]' data start end) 'number')
+}
+
+to displayCharacter s {
+  s = ('[data:join]' '' s)
+  if ((size s) == 0) {
+    '[display:mbDisplayOff]'
+    return 0
+  }
+  '[display:mbDrawShape]' ('[display:mbShapeForLetter]' (at 1 s)) 1 1
+}
+
+to led_displayImage imageName optionalX optionalY {
+  local 'image' imageName
+  if (isType image 'string') {
+    image = ('_led_namedImage' imageName)
+  }
+  '[display:mbDrawShape]' image (argOrDefault 2 1) (argOrDefault 3 1)
+}
+
+to led_image twentyFiveBitInt {
+  comment 'An LED image is a 25-bit integer'
+  return twentyFiveBitInt
+}
+
+to scroll_text text optionalDelay {
+  text = ('[data:join]' '' text)
+  local 'delay' 100
+  if ((pushArgCount) > 1) {
+    delay = optionalDelay
+  }
+  _stop_scrolling_text = (booleanConstant false)
+  if ('Pico:ed' == (boardType)) {
+    for position (((size text) * 6) + 18) {
+      if _stop_scrolling_text {return 0}
+      '[display:mbDisplayOff]'
+      '[tft:text]' text (17 - position) 0 (colorSwatch 125 125 125 255) 1 true
+      waitMillis (delay / 2)
+    }
+  } ('kidsIOT' == (boardType)) {
+    for position (((size text) * 6) + 21) {
+      if _stop_scrolling_text {return 0}
+      '[tft:deferUpdates]'
+      '[tft:clear]'
+      '[tft:text]' text (128 - (6 * position)) 6 (colorSwatch 255 255 255 255) 6 false
+      '[tft:resumeUpdates]'
+      waitMillis (delay / 8)
+    }
+  } else {
+    for position (((size text) * 6) + 6) {
+      if _stop_scrolling_text {return 0}
+      for i (size text) {
+        '[display:mbDrawShape]' ('[display:mbShapeForLetter]' ('[data:unicodeAt]' i text)) (((i * 6) + 2) - position) 1
+      }
+      waitMillis delay
+    }
+  }
+}
+
+to 'set display color' color {
+  '[display:mbSetColor]' color
+}
+
+to stopScrollingText {
+  _stop_scrolling_text = (booleanConstant true)
+  waitMillis 10
+  '[display:mbDisplayOff]'
+}
+
+
+module 'Magnetometer (AK8975)' Input
+author MicroBlocks
+version 1 2 
+description 'Support for AK8975 magnetometer.
+https://www.robotpark.com/image/data/PRO/91462/AK8975.pdf
+'
+variables _ak9575_scale 
+
+  spec 'r' 'ak9575_direction' 'compass direction'
+  space
+  spec 'r' 'ak9575_mag_total' 'magnetic field strength'
+  spec 'r' 'ak9575_mag_x' 'mag x'
+  spec 'r' 'ak9575_mag_y' 'mag y'
+  spec 'r' 'ak9575_mag_z' 'mag z'
+  space
+  spec ' ' '_ak9575_init' '_ak9575_init'
+  spec 'r' '_ak9575_readData' '_ak9575_readData'
+  spec 'r' '_ak9575_int16' '_ak9575_int16 _ _' 'num num'
+
+to '_ak9575_init' {
+  if (0 == _ak9575_scale) {
+    comment 'Initialize the sensitive scale factors'
+    i2cSet 14 10 15
+    waitMillis 10
+    '[sensors:i2cWrite]' 14 ('[data:makeList]' 16)
+    local 'data' (newList 3)
+    '[sensors:i2cRead]' 14 data
+    for i 3 {
+      comment 'Scale factor time 1024'
+      local 'n' (1024 + (8 * ((at i data) - 128)))
+      atPut i data n
+    }
+    _ak9575_scale = data
+  }
+  return _ak9575_scale
+}
+
+to '_ak9575_int16' highByte lowByte {
+  local 'n' (((highByte << 8) | lowByte) & 8191)
+  if (n > 4095) {
+    n = (n - 8192)
+  }
+  return n
+}
+
+to '_ak9575_readData' {
+  '_ak9575_init'
+  i2cSet 14 10 1
+  waitMillis 10
+  '[sensors:i2cWrite]' 14 ('[data:makeList]' 3)
+  local 'data' ('[data:newByteArray]' 7)
+  '[sensors:i2cRead]' 14 data
+  return data
+}
+
+to ak9575_direction {
+  local 'degrees' (('[misc:atan2]' (ak9575_mag_x) (ak9575_mag_y)) / 100)
+  if (degrees < 0) {
+    degrees = (360 + degrees)
+  }
+  return degrees
+}
+
+to ak9575_mag_total {
+  local 'data' ('_ak9575_readData')
+  local 'magX' ('_ak9575_int16' (at 2 data) (at 1 data))
+  local 'magY' ('_ak9575_int16' (at 4 data) (at 3 data))
+  local 'magZ' ('_ak9575_int16' (at 6 data) (at 5 data))
+  return ('[misc:sqrt]' (((magX * magX) + (magY * magY)) + (magZ * magZ)))
+}
+
+to ak9575_mag_x {
+  local 'data' ('_ak9575_readData')
+  return (((at 1 _ak9575_scale) * ('_ak9575_int16' (at 2 data) (at 1 data))) / 1024)
+}
+
+to ak9575_mag_y {
+  local 'data' ('_ak9575_readData')
+  return (((at 2 _ak9575_scale) * ('_ak9575_int16' (at 4 data) (at 3 data))) / 1024)
+}
+
+to ak9575_mag_z {
+  local 'data' ('_ak9575_readData')
+  return (((at 3 _ak9575_scale) * ('_ak9575_int16' (at 6 data) (at 5 data))) / 1024)
+}
+
+
+module NeoPixel Output
+author MicroBlocks
+version 1 13 
+description 'Control NeoPixel (WS2812) RGB LED strips and rings.
+'
+variables _np_pixels _np_pin _np_haswhite 
+
+  spec ' ' 'neoPixelAttach' 'attach _ LED NeoPixel strip to pin _ : has white _' 'num auto bool' 10 '' false
+  spec ' ' 'setNeoPixelColors10' 'set NeoPixels _ _ _ _ _ _ _ _ _ _' 'color color color color color color color color color color'
+  spec ' ' 'clearNeoPixels' 'clear NeoPixels'
+  spec ' ' 'neoPixelSetAllToColor' 'set all NeoPixels color _' 'color'
+  spec ' ' 'setNeoPixelColor' 'set NeoPixel _ color _' 'num color' 1
+  space
+  spec 'r' 'neoPixel_colorSwatch' '_' 'color'
+  spec 'r' 'colorFromRGB' 'color r _ g _ b _ (0-255)' 'num num num' 0 100 100
+  spec 'r' 'randomColor' 'random color'
+  space
+  spec ' ' 'rotateNeoPixelsBy' 'rotate NeoPixels by _' 'auto' 1
+  space
+  spec ' ' 'NeoPixel_brighten' 'brighten NeoPixel _ by _' 'num num' 1 10
+  spec ' ' 'NeoPixel_brighten_all' 'brighten all NeoPixels by _' 'num' 10
+  spec ' ' 'NeoPixel_shift_color' 'shift NeoPixel _ color by _' 'num num' 1 10
+  spec ' ' 'NeoPixel_shift_all_colors' 'shift all NeoPixel colors by _' 'num' 10
+  space
+  spec ' ' '_NeoPixel_ensureInitialized' '_NeoPixel_ensureInitialized'
+  spec ' ' '_NeoPixel_increaseRGB' '_NeoPixel_increaseRGB of _ by _' 'num num' 1 10
+  spec ' ' '_NeoPixel_rotate' '_NeoPixel_rotate_left _' 'bool' true
+  spec ' ' '_NeoPixel_update' '_NeoPixel_update'
+  spec ' ' '_NeoPixel_shift_hue' '_NeoPixel_shift_hue of _ by _' 'auto auto' '10' '10'
+
+to NeoPixel_brighten i delta {
+  '_NeoPixel_increaseRGB' i delta
+  '_NeoPixel_update'
+}
+
+to NeoPixel_brighten_all delta {
+  for i (size _np_pixels) {
+    '_NeoPixel_increaseRGB' i delta
+  }
+  '_NeoPixel_update'
+}
+
+to NeoPixel_shift_all_colors delta {
+  for i (size _np_pixels) {
+    '_NeoPixel_shift_hue' i delta
+  }
+  '_NeoPixel_update'
+}
+
+to NeoPixel_shift_color i delta {
+  '_NeoPixel_shift_hue' i delta
+  '_NeoPixel_update'
+}
+
+to '_NeoPixel_ensureInitialized' {
+  if (_np_pixels == 0) {if (or ((boardType) == 'M5Atom-Matrix') (or ((boardType) == 'Mbits') ((boardType) == 'micro:STEAMakers'))) {
+    neoPixelAttach 25 '' false
+  } ((boardType) == 'D1-Mini') {
+    comment 'D1 mini kit'
+    neoPixelAttach 7 15 false
+  } ((boardType) == 'FOXBIT') {
+    neoPixelAttach 35 '' false
+  } ((boardType) == 'CodingBox') {
+    neoPixelAttach 35 '' false
+  } else {
+    neoPixelAttach 10 '' false
+  }}
+}
+
+to '_NeoPixel_increaseRGB' i delta {
+  if (or (i < 1) (i > (size _np_pixels))) {return}
+  local 'rgb' (at i _np_pixels)
+  if (rgb != 0) {
+    local 'h' ('[misc:hue]' rgb)
+    local 's' ('[misc:saturation]' rgb)
+    local 'v' (('[misc:brightness]' rgb) + delta)
+    v = (maximum 20 (minimum v 100))
+    atPut i _np_pixels ('[misc:hsvColor]' h s v)
+  }
+}
+
+to '_NeoPixel_rotate' left {
+  '_NeoPixel_ensureInitialized'
+  local 'length' (size _np_pixels)
+  if left {
+    local 'first' (at 1 _np_pixels)
+    for i (length - 1) {
+      atPut i _np_pixels (at (i + 1) _np_pixels)
+    }
+    atPut length _np_pixels first
+  } else {
+    local 'last' (at length _np_pixels)
+    for i (length - 1) {
+      atPut ((length - i) + 1) _np_pixels (at (length - i) _np_pixels)
+    }
+    atPut 1 _np_pixels last
+  }
+}
+
+to '_NeoPixel_shift_hue' i delta {
+  if (or (i < 1) (i > (size _np_pixels))) {return}
+  local 'rgb' (at i _np_pixels)
+  if (rgb != 0) {
+    local 'h' ((('[misc:hue]' rgb) + delta) % 360)
+    local 's' ('[misc:saturation]' rgb)
+    local 'v' ('[misc:brightness]' rgb)
+    atPut i _np_pixels ('[misc:hsvColor]' h s v)
+  }
+}
+
+to '_NeoPixel_update' {
+  comment 'NeoPixel pin and hasWhite may have been changed by another library.'
+  '[display:neoPixelSetPin]' _np_pin _np_hasWhite
+  '[display:neoPixelSend]' _np_pixels
+  waitMicros 300
+}
+
+to clearNeoPixels {
+  '_NeoPixel_ensureInitialized'
+  atPut 'all' _np_pixels 0
+  '_NeoPixel_update'
+}
+
+to colorFromRGB r g b {
+  r = (maximum 0 (minimum r 255))
+  g = (maximum 0 (minimum g 255))
+  b = (maximum 0 (minimum b 255))
+  return (((r << 16) | (g << 8)) | b)
+}
+
+to neoPixelAttach number pinNumber optionalHasWhite {
+  _np_pin = pinNumber
+  _np_hasWhite = false
+  if ((pushArgCount) > 2) {
+    _np_hasWhite = optionalHasWhite
+  }
+  if (or (_np_pixels == 0) (number != (size _np_pixels))) {
+    _np_pixels = (newList number)
+  }
+  atPut 'all' _np_pixels 0
+  '[display:neoPixelSetPin]' _np_pin _np_hasWhite
+}
+
+to neoPixelSetAllToColor color {
+  '_NeoPixel_ensureInitialized'
+  atPut 'all' _np_pixels color
+  '_NeoPixel_update'
+}
+
+to neoPixel_colorSwatch color {
+  return color
+}
+
+to rotateNeoPixelsBy n {
+  '_NeoPixel_ensureInitialized'
+  local 'rotateLeft' (n < 0)
+  if (or ((boardType) == 'CircuitPlayground') ((boardType) == 'CircuitPlayground Bluefruit')) {
+    rotateLeft = (n > 0)
+  }
+  repeat (absoluteValue n) {
+    '_NeoPixel_rotate' rotateLeft
+  }
+  '_NeoPixel_update'
+}
+
+to setNeoPixelColor i color {
+  '_NeoPixel_ensureInitialized'
+  if (and (1 <= i) (i <= (size _np_pixels))) {
+    atPut i _np_pixels color
+    '_NeoPixel_update'
+  }
+}
+
+to setNeoPixelColors10 c1 c2 c3 c4 c5 c6 c7 c8 c9 c10 {
+  '_NeoPixel_ensureInitialized'
+  if ((size _np_pixels) >= 1) {
+    atPut 1 _np_pixels c1
+  }
+  if ((size _np_pixels) >= 2) {
+    atPut 2 _np_pixels c2
+  }
+  if ((size _np_pixels) >= 3) {
+    atPut 3 _np_pixels c3
+  }
+  if ((size _np_pixels) >= 4) {
+    atPut 4 _np_pixels c4
+  }
+  if ((size _np_pixels) >= 5) {
+    atPut 5 _np_pixels c5
+  }
+  if ((size _np_pixels) >= 6) {
+    atPut 6 _np_pixels c6
+  }
+  if ((size _np_pixels) >= 7) {
+    atPut 7 _np_pixels c7
+  }
+  if ((size _np_pixels) >= 8) {
+    atPut 8 _np_pixels c8
+  }
+  if ((size _np_pixels) >= 9) {
+    atPut 9 _np_pixels c9
+  }
+  if ((size _np_pixels) >= 10) {
+    atPut 10 _np_pixels c10
+  }
+  '_NeoPixel_update'
+}
+
+
+module 'RFID (RC522)' Input
+author MicroBlocks
+version 1 6 
+description 'Support for RC522 RFID card with I2C and SPI interfaces.
+Based on José Garcia RC522 MicroBlocks library which itself was based on:
+        https://github.com/m5stack/UIFlow-Code/blob/master/units/_rfid.py
+        and Arduino SPI Library: https://github.com/miguelbalboa/rfid/
+
+Tested with:
+        https://www.microcenter.com/product/639731/inland-ks0067-rc522-rfid-module-for-arduino
+        https://techatronic.com/rfid-rc522-module-rfid-sensor-working-description/
+        https://shop.m5stack.com/products/rfid-unit-2-ws1850s
+        https://shop.m5stack.com/products/rfid-sensor-unit
+'
+variables _rc522_mode _rc522_i2cAddr _rc522_initialized _rc522_nssPin 
+
+  spec ' ' 'rc522_initialize_I2C' 'RC522 initialize I2C addr _' 'num' 40
+  spec ' ' 'rc522_initialize_SPI' 'RC522 initialize SPI ssPin _' 'num' 17
+  spec 'r' 'rc522_connected' 'RC522 is connected'
+  space
+  spec 'r' 'rc522_card_present' 'RC522 is card present'
+  spec 'r' 'rc522_read_uid' 'RC522 card UID'
+  space
+  spec 'r' 'rc522_equal_ids' 'RC522 _ = _' 'auto auto' 'uid1' 'uid2'
+  space
+  spec ' ' '_rc522_antenna_on' '_rc522_antenna_on'
+  spec 'r' '_rc522_request' '_rc522_request'
+  spec 'r' '_rc522_send_to_card' '_rc522_send_to_card _ _' 'auto auto' 0 'list'
+  spec ' ' '_rc522_bitset' '_rc522_bitset reg _ mask _' 'num num' 0 128
+  spec ' ' '_rc522_bitclear' '_rc522_bitclear reg _ mask _' 'num num' 0 128
+  spec 'r' '_rc522_read_reg' '_rc522_read_reg _' 'num' 55
+  spec ' ' '_rc522_write_reg' '_rc522_write_reg _ value _' 'num num' 1 15
+
+to '_rc522_antenna_on' {
+  local 'value' ('_rc522_read_reg' (hexToInt '14'))
+  if (and (value >= 0) ((value & 3) != 3)) {
+    '_rc522_write_reg' (hexToInt '14') (value | 3)
+  }
+}
+
+to '_rc522_bitclear' reg mask {
+  '_rc522_write_reg' reg (('_rc522_read_reg' reg) & ('~' mask))
+}
+
+to '_rc522_bitset' reg mask {
+  '_rc522_write_reg' reg (('_rc522_read_reg' reg) | mask)
+}
+
+to '_rc522_read_reg' reg {
+  local 'result' 0
+  if ('SPI' == _rc522_mode) {
+    digitalWriteOp _rc522_nssPin false
+    spiSend (128 | (reg << 1))
+    result = (spiRecv)
+    digitalWriteOp _rc522_nssPin true
+  } ('I2C' == _rc522_mode) {
+    result = (i2cGet _rc522_i2cAddr reg)
+  }
+  return result
+}
+
+to '_rc522_request' {
+  '_rc522_write_reg' (hexToInt '0D') 7
+  return ('_rc522_send_to_card' (hexToInt '0C') ('[data:makeList]' (hexToInt '26')))
+}
+
+to '_rc522_send_to_card' cmd send {
+  '_rc522_write_reg' 2 ((hexToInt '77') | (hexToInt '80'))
+  '_rc522_bitclear' (hexToInt '04') (hexToInt '80')
+  '_rc522_bitset' (hexToInt '0A') (hexToInt '80')
+  for i (size send) {
+    '_rc522_write_reg' 9 (at i send)
+  }
+  '_rc522_write_reg' 1 cmd
+  '_rc522_bitset' (hexToInt '0D') (hexToInt '80')
+  waitMillis 10
+  '_rc522_bitclear' (hexToInt '0D') (hexToInt '80')
+  local 'response' (newList 1)
+  atPut 1 response (('_rc522_read_reg' 6) & (hexToInt '1B'))
+  if ((at 1 response) == 0) {
+    local 'n' ('_rc522_read_reg' (hexToInt '0A'))
+    for i n {
+      '[data:addLast]' ('_rc522_read_reg' 9) response
+    }
+  }
+  return response
+}
+
+to '_rc522_write_reg' reg value {
+  if ('SPI' == _rc522_mode) {
+    digitalWriteOp _rc522_nssPin false
+    spiSend (reg << 1)
+    spiSend value
+    digitalWriteOp _rc522_nssPin true
+  } ('I2C' == _rc522_mode) {
+    i2cSet _rc522_i2cAddr reg value
+  }
+}
+
+to rc522_card_present {
+  local 'res' ('_rc522_request')
+  if ((at 1 res) == 0) {
+    if ((size res) == 3) {
+      return (booleanConstant true)
+    } else {
+      waitMillis 5
+      res = ('_rc522_request')
+      return ((size res) == 3)
+    }
+  } else {
+    return (booleanConstant false)
+  }
+}
+
+to rc522_connected {
+  local 'version' ('_rc522_read_reg' (hexToInt '37'))
+  if (('[data:find]' version ('[data:makeList]' 21 136 144 145 146 178)) > 0) {
+    return true
+  } (version > 0) {
+    sayIt 'Unknown RC522 Version:' version
+    waitMillis 1000
+    return true
+  } else {
+    return false
+  }
+}
+
+to rc522_equal_ids id1 id2 {
+  if (or (id1 == 0) (id2 == 0)) {return (booleanConstant false)}
+  if ((size id1) != (size id2)) {return (booleanConstant false)}
+  for i (size id1) {
+    if ((at i id1) != (at i id2)) {return (booleanConstant false)}
+  }
+  return (booleanConstant true)
+}
+
+to rc522_initialize_I2C i2cAddr {
+  _rc522_mode = 'I2C'
+  _rc522_i2cAddr = i2cAddr
+  if (_rc522_initialized == 0) {
+    _rc522_initialized = (booleanConstant true)
+    '_rc522_write_reg' 1 (hexToInt 'F')
+    waitMillis 50
+    '_rc522_write_reg' (hexToInt '2A') (hexToInt '80')
+    '_rc522_write_reg' (hexToInt '2B') (hexToInt 'A9')
+    '_rc522_write_reg' (hexToInt '2C') (hexToInt '03')
+    '_rc522_write_reg' (hexToInt '2D') (hexToInt 'E8')
+    '_rc522_write_reg' (hexToInt '15') (hexToInt '40')
+    '_rc522_write_reg' (hexToInt '11') (hexToInt '3D')
+    '_rc522_antenna_on'
+  }
+}
+
+to rc522_initialize_SPI ssPin {
+  _rc522_mode = 'SPI'
+  _rc522_nssPin = ssPin
+  if (_rc522_initialized == 0) {
+    _rc522_initialized = (booleanConstant true)
+    '_rc522_write_reg' 1 (hexToInt 'F')
+    waitMillis 1
+    '_rc522_write_reg' (hexToInt '2A') (hexToInt '80')
+    '_rc522_write_reg' (hexToInt '2B') (hexToInt 'A9')
+    '_rc522_write_reg' (hexToInt '2C') (hexToInt '03')
+    '_rc522_write_reg' (hexToInt '2D') (hexToInt 'E8')
+    '_rc522_write_reg' (hexToInt '15') (hexToInt '40')
+    '_rc522_write_reg' (hexToInt '11') (hexToInt '3D')
+    '_rc522_antenna_on'
+  }
+}
+
+to rc522_read_uid {
+  if (rc522_card_present) {
+    '_rc522_write_reg' (hexToInt '0D') 0
+    local 'res' ('_rc522_send_to_card' (hexToInt '0C') ('[data:makeList]' (hexToInt '93') (hexToInt '20')))
+    '[data:delete]' 1 res
+    '[data:delete]' 'last' res
+    return res
+  } else {
+    return ('[data:makeList]')
+  }
+}
+
+
+module Strings Data
+author MicroBlocks
+version 1 5 
+description 'String operations.'
+
+  spec 'r' 'isDigit' '_ is a digit' 'str' '5'
+  spec 'r' 'isLowercase' '_ is lowercase' 'str' 'A'
+  spec 'r' 'isUppercase' '_ is uppercase' 'str' 'E'
+  space
+  spec 'r' 'beginsWith' '_ begins with _' 'str str' 'prefix' 'pre'
+  spec 'r' 'endsWith' '_ ends with _' 'str str' 'suffix' 'fix'
+  spec 'r' 'contains' '_ contains _' 'str str' 'smiles' 'mile'
+  space
+  spec 'r' 'lowercase' 'lowercase _' 'str' 'THIS is a String! :)'
+  spec 'r' 'uppercase' 'uppercase _' 'str' 'Hello, world!'
+  spec 'r' 'withoutWhiteSpace' '_ without white space' 'str' '1, 2,	3,
+4'
+  space
+  spec 'r' 'joinWith' 'join string list _ separator _' 'auto str' ' ' ' '
+  spec 'r' 'stringToUnicodes' 'unicodes _' 'auto' 'aString'
+  spec 'r' 'unicodesToString' 'string from unicodes _' 'auto' 'aList'
+  space
+  spec 'r' 'num2str' 'num2str _' 'auto' 42
+  spec 'r' 'str2num' 'str2num _' 'str' '123'
+
+to beginsWith string substring {
+  return (('[data:find]' substring string) == 1)
+}
+
+to contains string substring {
+  return (('[data:find]' substring string) > 0)
+}
+
+to endsWith string substring {
+  return (('[data:find]' substring string) > ((size string) - (size substring)))
+}
+
+to isDigit char {
+  local 'unicode' ('[data:unicodeAt]' 1 char)
+  return (and (unicode >= 48) (unicode <= 57))
+}
+
+to isLowercase char {
+  local 'unicode' ('[data:unicodeAt]' 1 char)
+  return (and (unicode >= 97) (unicode <= 122))
+}
+
+to isUppercase char {
+  local 'unicode' ('[data:unicodeAt]' 1 char)
+  return (and (unicode >= 65) (unicode <= 90))
+}
+
+to joinWith stringList separator {
+  if (not (isType stringList 'list')) {return ('[data:join]' '' stringList)}
+  if (or ((pushArgCount) == 1) (separator == '')) {return ('[data:joinStrings]' stringList)}
+  local 'result' (newList (2 * (size stringList)))
+  '[data:delete]' 'all' result
+  for s stringList {
+    '[data:addLast]' s result
+    '[data:addLast]' separator result
+  }
+  '[data:delete]' 'last' result
+  return ('[data:joinStrings]' result)
+}
+
+to lowercase string {
+  local 'new string' ''
+  for i (size string) {
+    if (isUppercase (at i string)) {
+      'new string' = ('[data:join]' (v 'new string') ('[data:unicodeString]' (('[data:unicodeAt]' i string) + 32)))
+    } else {
+      'new string' = ('[data:join]' (v 'new string') (at i string))
+    }
+  }
+  return (v 'new string')
+}
+
+to num2str n {
+  return ('[data:join]' '' n)
+}
+
+to str2num s {
+  return (0 + s)
+}
+
+to stringToUnicodes s {
+  local 'result' (newList (size s))
+  for i (size s) {
+    atPut i result ('[data:unicodeAt]' i s)
+  }
+  return result
+}
+
+to unicodesToString aList {
+  return ('[data:unicodeString]' aList)
+}
+
+to uppercase string {
+  local 'new string' ''
+  for i (size string) {
+    if (isLowercase (at i string)) {
+      'new string' = ('[data:join]' (v 'new string') ('[data:unicodeString]' (('[data:unicodeAt]' i string) - 32)))
+    } else {
+      'new string' = ('[data:join]' (v 'new string') (at i string))
+    }
+  }
+  return (v 'new string')
+}
+
+to withoutWhiteSpace aString {
+  local 'result' (newList (size aString))
+  '[data:delete]' 'all' result
+  for i (size aString) {
+    local 'ch' ('[data:unicodeAt]' i aString)
+    if (ch > 32) {
+      '[data:addLast]' ch result
+    }
+  }
+  return ('[data:unicodeString]' result)
+}
+
+
+module TFT Output
+author MicroBlocks
+version 1 12 
+description 'Draw graphics and write text on boards with a TFT display, such as the M5Stack, M5Stick, Citilab ED1 or (discontinued) IoT-Bus.'
+
+  spec ' ' '[tft:clear]' 'clear TFT display'
+  space
+  spec ' ' '[tft:rect]' 'draw rectangle on TFT at x _ y _ width _ height _ color _ : filled _' 'num num num num color bool' 10 10 40 30 nil true
+  spec ' ' '[tft:roundedRect]' 'draw rounded rectangle on TFT at x _ y _ width _ height _ radius _ color _ : filled _' 'num num num num num color bool' 10 10 40 30 8 nil true
+  spec ' ' '[tft:circle]' 'draw circle on TFT at x _ y _ radius _ color _ : filled _' 'num num num color bool' 40 40 30 nil true
+  spec ' ' '[tft:triangle]' 'draw triangle on TFT at x _ y _ , x _ y _ , x _ y _ color _ : filled _' 'num num num num num num color bool' 20 20 30 80 60 5 nil true
+  spec ' ' '[tft:line]' 'draw line on TFT from x _ y _ to x _ y _ color _' 'num num num num color' 12 8 25 15
+  spec ' ' 'tft_drawVector' 'draw vector x _ y _ angle _ length _ color _' 'num num num num color' 40 40 45 40
+  space
+  spec ' ' '[tft:text]' 'write _ on TFT at x _ y _ color _ : scale _ wrap _ : bg color _' 'str num num color num bool color' 'Hello World!' 5 5 nil 2 true
+  spec ' ' 'tft_drawText' 'draw text _ on TFT at x _ y _ color _ : scale _ : bg color _' 'str num num color num color' 'Line 1
+Line 2' 50 20 nil 2
+  space
+  spec ' ' '[tft:setPixel]' 'set TFT pixel x _ y _ to _' 'num num color' 10 10
+  spec ' ' '[tft:pixelRow]' 'draw pixel row _ x _ y _ : bytesPerPixel _ : palette _' 'auto num num num str' 'aList' 0 0 4
+  spec ' ' '[tft:drawBitmap]' 'draw bitmap _ palette _ on TFT at x _ y _' 'str str num num' 'aBitmap' 'a list of colors' 10 10
+  space
+  spec 'r' 'tft_colorSwatch' '_' 'color'
+  spec 'r' 'makeColor' 'color r _ g _ b _ (0-255)' 'num num num' 0 100 100
+  spec 'r' 'makeGray' 'gray _ %' 'num' 50
+  spec 'r' 'randomColor' 'random color'
+  space
+  spec 'r' '[tft:getWidth]' 'TFT width'
+  spec 'r' '[tft:getHeight]' 'TFT height'
+  space
+  spec ' ' '[tft:setBacklight]' 'set TFT backlight _ (0-10)' 'num' 10
+  space
+  spec ' ' '_deferMonochromeDisplayUpdates' '_defer monochrome display updates'
+  spec ' ' '_resumeMonochromeDisplayUpdates' '_resume monochrome display updates'
+
+to '_deferMonochromeDisplayUpdates' {
+  '[tft:deferUpdates]'
+}
+
+to '_resumeMonochromeDisplayUpdates' {
+  '[tft:resumeUpdates]'
+}
+
+to makeColor r g b {
+  r = (maximum 0 (minimum r 255))
+  g = (maximum 0 (minimum g 255))
+  b = (maximum 0 (minimum b 255))
+  return ((r << 16) | ((g << 8) | b))
+}
+
+to makeGray percent {
+  gray = ((percent * 255) / 100)
+  gray = (maximum 0 (minimum gray 255))
+  return ((gray << 16) | ((gray << 8) | gray))
+}
+
+to randomColor {
+  local 'n1' (random 100 200)
+  local 'n2' (random 0 100)
+  if (1 == (random 1 3)) {
+    return ((n1 << 16) | (n2 << 8))
+  } (1 == (random 1 2)) {
+    return ((n2 << 16) | n1)
+  } else {
+    return ((n1 << 8) | n2)
+  }
+}
+
+to tft_colorSwatch color {
+  return color
+}
+
+to tft_drawText s x y color optionalScale optionalBGColor {
+  s = ('[data:convertType]' s 'string')
+  local 'scale' (argOrDefault 5 2)
+  local 'bgColor' (argOrDefault 6 '')
+  local 'lines' ('[data:split]' s ('[data:unicodeString]' 10))
+  for line ('[data:split]' s ('[data:unicodeString]' 10)) {
+    if (isType bgColor 'number') {
+      '[tft:text]' line x y color scale false bgColor
+    } else {
+      '[tft:text]' line x y color scale false
+    }
+    y += (8 * scale)
+  }
+}
+
+to tft_drawVector x y angle length color {
+  local 'endX' (x + ((length * ('[misc:sin]' (100 * (angle + 90)))) >> 14))
+  local 'endY' (y + ((length * ('[misc:sin]' (100 * angle))) >> 14))
+  '[tft:line]' x y endX endY color
+}
+
+
+module 'Temperature Humidity (AHT20)' Input
+author MicroBlocks
+version 1 0 
+description 'Support for AHT20 temperature and relative humidity sensor.
+
+https://files.seeedstudio.com/wiki/Grove-AHT20_I2C_Industrial_Grade_Temperature_and_Humidity_Sensor/AHT20-datasheet-2020-4-16.pdf'
+
+  spec 'r' 'aht20_temperature' 'aht20 temperature (°C)'
+  spec 'r' 'aht20_humidity' 'aht20 humidity (%)'
+  space
+  spec 'r' '_aht20_read_data' '_aht20_read_data'
+
+to '_aht20_read_data' {
+  '[sensors:i2cWrite]' 56 ('[data:makeList]' (hexToInt 'AC') (hexToInt '33') 0)
+  comment 'Wait for sensor reading to complete (see datasheet).'
+  waitMillis 80
+  local 'data' ('[data:newByteArray]' 6)
+  '[sensors:i2cRead]' 56 data
+  return data
+}
+
+to aht20_humidity {
+  local 'data' ('_aht20_read_data')
+  local 'raw' (((at 2 data) << 12) | (((at 3 data) << 4) | ((at 4 data) >> 4)))
+  return ((100 * raw) >> 20)
+}
+
+to aht20_temperature {
+  local 'data' ('_aht20_read_data')
+  local 'raw' ((((at 4 data) & 15) << 16) | (((at 5 data) << 8) | (at 6 data)))
+  return (((200 * raw) >> 20) - 50)
+}
+
+
+module Tone Output
+author MicroBlocks
+version 1 10 
+tags tone sound music audio note speaker 
+choices tone_NoteName 'nt;c' 'nt;c#' 'nt;d' 'nt;d#' 'nt;e' 'nt;f' 'nt;f#' 'nt;g' 'nt;g#' 'nt;a' 'nt;a#' 'nt;b' 
+description 'Audio tone generation. Make music with MicroBlocks!
+'
+variables _tonePin _toneInitalized _toneLoopOverhead _toneNoteNames _toneArezzoNotes _toneFrequencies 
+
+  spec ' ' 'play tone' 'play note _ octave _ for _ ms' 'str.tone_NoteName num num' 'nt;c' 0 500
+  spec ' ' 'playMIDIKey' 'play midi key _ for _ ms' 'num num' 60 500
+  spec ' ' 'play frequency' 'play frequency _ for _ ms' 'num num' 261 500
+  space
+  spec ' ' 'startTone' 'start tone _ Hz' 'num' 440
+  spec ' ' 'stopTone' 'stop tone'
+  space
+  spec ' ' 'attach buzzer to pin' 'attach buzzer to pin _' 'auto' ''
+  space
+  spec 'r' '_measureLoopOverhead' '_measureLoopOverhead'
+  spec 'r' '_baseFreqForNote' '_baseFreqForNote _' 'auto' 'c'
+  spec 'r' '_baseFreqForSemitone' '_baseFreqForSemitone _' 'num' 0
+  spec ' ' '_toneLoop' '_toneLoop _ for _ ms' 'num num' 440000 100
+  spec 'r' '_trimmedLowercase' '_trimmedLowercase _' 'str' 'A. b C...'
+  spec ' ' '_tone init note names' '_tone init note names'
+
+to '_baseFreqForNote' note {
+  comment 'Return the frequency for the given note in the middle-C octave
+scaled by 1000. For example, return 440000 (440Hz) for A.
+Note names may be upper or lower case. Note names
+may be followed by # for a sharp or b for a flat.'
+  local 'normalized note' ('_trimmedLowercase' note)
+  'normalized note' = (ifExpression ((at 1 (v 'normalized note')) == 'n') (v 'normalized note') ('[data:join]' 'nt;' (v 'normalized note')))
+  '_tone init note names'
+  if (('[data:find]' (v 'normalized note') _toneArezzoNotes) > 0) {
+    return ('_baseFreqForSemitone' ('[data:find]' (v 'normalized note') _toneArezzoNotes))
+  } else {
+    return ('_baseFreqForSemitone' ('[data:find]' (v 'normalized note') _toneNoteNames))
+  }
+}
+
+to '_baseFreqForSemitone' semitone {
+  if (_toneFrequencies == 0) {_toneFrequencies = ('[data:makeList]' 261626 277183 293665 311127 329628 349228 369994 391995 415305 440000 466164 493883 246942 277183 277183 311127 311127 349228 329628 369994 369994 415305 415305 466164 466164 523252)}
+  if (and (1 <= semitone) (semitone <= (size _toneFrequencies))) {
+    return (at semitone _toneFrequencies)
+  } else {
+    comment 'Bad note name; return 10 Hz'
+    return 10000
+  }
+}
+
+to '_measureLoopOverhead' {
+  comment 'Measure the loop overhead on this device'
+  local 'halfCycle' 100
+  local 'startT' (microsOp)
+  repeat 100 {
+    digitalWriteOp _tonePin false
+    waitMicros halfCycle
+    digitalWriteOp _tonePin false
+    waitMicros halfCycle
+  }
+  local 'usecs' ((microsOp) - startT)
+  return ((usecs - 20000) / 200)
+}
+
+to '_tone init note names' {
+  if (_toneNoteNames == 0) {
+    _toneNoteNames = ('[data:makeList]' 'nt;c' 'nt;c#' 'nt;d' 'nt;d#' 'nt;e' 'nt;f' 'nt;f#' 'nt;g' 'nt;g#' 'nt;a' 'nt;a#' 'nt;b' 'nt;c_' 'nt;db' 'nt;d_' 'nt;eb' 'nt;e_' 'nt;e#' 'nt;f_' 'nt;gb' 'nt;g_' 'nt;ab' 'nt;a_' 'nt;bb' 'nt;b_' 'nt;b#')
+    _toneArezzoNotes = ('[data:makeList]' 'nt;do' 'nt;do#' 'nt;re' 'nt;re#' 'nt;mi' 'nt;fa' 'nt;fa#' 'nt;sol' 'nt;sol#' 'nt;la' 'nt;la#' 'nt;si' 'nt;do_' 'nt;dob' 'nt;re_' 'nt;reb' 'nt;mi_' 'nt;mi#' 'nt;fa_' 'nt;solb' 'nt;sol_' 'nt;lab' 'nt;la_' 'nt;sib' 'nt;si_' 'nt;si#')
+  }
+}
+
+to '_toneLoop' scaledFreq ms {
+  if (_toneInitalized == 0) {'attach buzzer to pin' ''}
+  if ('[io:hasTone]') {
+    '[io:playTone]' _tonePin (scaledFreq / 1000)
+    waitMillis ms
+    '[io:playTone]' _tonePin 0
+  } else {
+    local 'halfCycle' ((500000000 / scaledFreq) - _toneLoopOverhead)
+    local 'cycles' ((ms * 500) / halfCycle)
+    repeat cycles {
+      digitalWriteOp _tonePin true
+      waitMicros halfCycle
+      digitalWriteOp _tonePin false
+      waitMicros halfCycle
+    }
+  }
+}
+
+to '_trimmedLowercase' s {
+  comment 'Return a copy of the given string without whitespace
+or periods and all lowercase.'
+  local 'result' (newList (size s))
+  '[data:delete]' 'all' result
+  for i (size s) {
+    local 'ch' ('[data:unicodeAt]' i s)
+    if (and (ch > 32) (ch != 46)) {
+      if (and (65 <= ch) (ch <= 90)) {ch = (ch + 32)}
+      '[data:addLast]' ch result
+    }
+  }
+  return ('[data:unicodeString]' result)
+}
+
+to 'attach buzzer to pin' pinNumber {
+  if (pinNumber == '') {
+    comment 'Pin number not specified; use default pin for this device'
+    if ((boardType) == 'Citilab ED1') {
+      _tonePin = 26
+    } ((boardType) == 'M5Stack-Core') {
+      _tonePin = 25
+    } ((boardType) == 'M5StickC') {
+      _tonePin = 26
+    } ((boardType) == 'Calliope') {
+      digitalWriteOp 23 true
+      digitalWriteOp 24 true
+      _tonePin = 25
+    } ((boardType) == 'D1-Mini') {
+      _tonePin = 12
+    } ((boardType) == 'CodingBox') {
+      _tonePin = 32
+    } else {
+      _tonePin = -1
+    }
+  } else {
+    _tonePin = pinNumber
+  }
+  _toneLoopOverhead = ('_measureLoopOverhead')
+  _toneInitalized = (booleanConstant true)
+}
+
+to 'play frequency' freq ms {
+  '_toneLoop' (freq * 1000) ms
+}
+
+to 'play tone' note octave ms {
+  local 'freq' ('_baseFreqForNote' note)
+  if (freq <= 10000) {
+    waitMillis ms
+    return 0
+  }
+  if (octave < 0) {
+    repeat (absoluteValue octave) {
+      freq = (freq / 2)
+    }
+  }
+  repeat octave {
+    freq = (freq * 2)
+  }
+  '_toneLoop' freq ms
+}
+
+to playMIDIKey key ms {
+  local 'freq' ('_baseFreqForSemitone' ((key % 12) + 1))
+  local 'octave' ((key / 12) - 5)
+  if (octave < 0) {
+    repeat (absoluteValue octave) {
+      freq = (freq / 2)
+    }
+  }
+  repeat octave {
+    freq = (freq * 2)
+  }
+  '_toneLoop' freq ms
+}
+
+to startTone freq {
+  if (_toneInitalized == 0) {'attach buzzer to pin' ''}
+  if ('[io:hasTone]') {'[io:playTone]' _tonePin freq}
+}
+
+to stopTone {
+  startTone 0
+}
+
+
+module WebPanel Data
+author MicroBlocks
+version 1 3 
+depends '_HTTP server' _Strings WiFi '_WebSocket server' 
+description 'Quickly create a web panel that shows auto-updating readouts of sensor values and buttons to trigger actions.
+'
+variables _webpnl_readouts _webpnl_sliders _webpnl_buttons _webpnl_title _webpnl_colors _webpnl_page_cache _webpnl_css_style 
+
+  spec ' ' 'webpnl reset web panel' 'reset web panel'
+  space
+  spec ' ' 'webpnl set title' 'set web panel title _' 'auto' 'MicroBlocks Web Panel'
+  space
+  spec ' ' 'webpnl add readout' 'add readout labelled _ with selector _ : and params _' 'auto auto auto' 'Temperature' 'get temperature' ''
+  space
+  spec ' ' 'webpnl add slider' 'add slider labelled _ ranged _ to _ with selector _' 'auto auto auto auto' 'Servo' 0 180 'set servo'
+  space
+  spec ' ' 'webpnl add color picker' 'add color picker labelled _ with selector _' 'auto auto' 'NeoPixels' 'neoPixelSetAllToColor'
+  space
+  spec ' ' 'webpnl add button' 'add button labelled _ with selector _ : and params _' 'auto auto auto' 'Motor' 'start motor' ''
+  spec ' ' 'webpnl add toggle' 'add toggle button labelled _ with selector _ : and params _' 'auto auto auto' 'Motor' 'toggle motor' ''
+  space
+  spec ' ' '_webpnl init' '_webpnl init'
+  spec 'r' '_webpnl sanitized call params' '_webpnl sanitized call params _' 'auto' ''
+  spec 'r' '_webpnl unescape URL part' '_webpnl unescape URL part _' 'auto' 'an%20escaped%3Cpart%3E'
+  spec ' ' '_webpnl update page cache' '_webpnl update page cache'
+  spec ' ' '_webpnl webserver loop' '_webpnl webserver loop'
+  spec 'r' '_webpnl html tag' '_webpnl tag _ contents _ : #BR# _ → _   : ...' 'auto auto auto auto' 'body' '' 'width' '100%'
+  spec 'r' '_webpnl escaped call params' '_webpnl escaped call params _' 'auto' ''
+  spec 'r' '_webpnl escaped URL part' '_webpnl escaped URL part _' 'auto' ''
+  spec 'r' '_webpnl style' '_webpnl style'
+  spec ' ' '_webpnl websocket loop' '_webpnl websocket loop'
+  spec ' ' '_webpnl webserver loop' '_webpnl webserver loop'
+
+to '_webpnl escaped URL part' part {
+  local 'escaped' ''
+  local 'escape codes' ('[data:makeList]' '%20' '%3C' '%3E' '%91' '%93' '%58')
+  local 'unescaped chars' ('[data:makeList]' ' ' '<' '>' '[' ']' ':')
+  for c ('[data:convertType]' part 'string') {
+    local 'index' ('[data:find]' c (v 'unescaped chars'))
+    if (index > 0) {
+      escaped = ('[data:join]' escaped (at index (v 'escape codes')))
+    } else {
+      escaped = ('[data:join]' escaped c)
+    }
+  }
+  return escaped
+}
+
+to '_webpnl escaped call params' params {
+  if (not (isType params 'list')) {return ''}
+  local 'escaped' ('[data:makeList]' '/')
+  for param params {
+    '[data:addLast]' ('_webpnl escaped URL part' param) escaped
+    '[data:addLast]' '/' escaped
+  }
+  return ('[data:joinStrings]' escaped)
+}
+
+to '_webpnl html tag' args args args args {
+  local 'tag' (getArg 1)
+  local 'contents' (getArg 2)
+  local 'html' ('[data:join]' '<' tag)
+  for index (((pushArgCount) - 2) / 2) {
+    local 'attribute' (getArg ((index * 2) + 1))
+    local 'value' (getArg ((index * 2) + 2))
+    html = ('[data:join]' html ' ' attribute '="' value '"')
+  }
+  if (isType contents 'list') {
+    html = ('[data:join]' html '>')
+    for each contents {
+      html = ('[data:join]' html each)
+    }
+    html = ('[data:join]' html '</' tag '>')
+  } else {
+    html = ('[data:join]' html '>' contents '</' tag '>')
+  }
+  return html
+}
+
+to '_webpnl init' {
+  if (_webpnl_title == 0) {_webpnl_title = 'MicroBlocks Web Panel'}
+  if (_webpnl_readouts == 0) {_webpnl_readouts = ('[data:makeList]')}
+  if (_webpnl_buttons == 0) {_webpnl_buttons = ('[data:makeList]')}
+  if (_webpnl_colors == 0) {_webpnl_colors = ('[data:makeList]')}
+  if (_webpnl_sliders == 0) {_webpnl_sliders = ('[data:makeList]')}
+  if (_webpnl_css_style == 0) {_webpnl_css_style = ('_webpnl style')}
+  sendBroadcast '_webpnl webserver loop'
+  sendBroadcast '_webpnl websocket loop'
+}
+
+to '_webpnl sanitized call params' params {
+  local 'sanitized' ('[data:makeList]')
+  for param params {
+    if (and ((size param) > 0) (isDigit param)) {
+      '[data:addLast]' ('[data:convertType]' param 'number') sanitized
+    } (or ('true' == param) ('false' == param)) {
+      '[data:addLast]' ('true' == param) sanitized
+    } else {
+      '[data:addLast]' ('_webpnl unescape URL part' param) sanitized
+    }
+  }
+  return sanitized
+}
+
+to '_webpnl style' {
+  return 'body{background: #eee;}
+#title{display: block;width: 800px;margin: 0 auto;}
+#panel{width: 800px;background: #fff;padding: 1em;margin: 1em auto;border-radius: 5px;box-shadow: 0 0 10px 0 #0005;}
+#readouts, #buttons, #sliders, #colors{margin-bottom: 1em;display: flex;flex-wrap: wrap;gap: 0.5em 1em;}
+.line{display: flex;gap: 1em;padding-left: 1em;align-items: center;}
+#readouts .line{flex: 1 0 40%;}
+.reverse{direction: rtl;}
+.button{cursor: pointer;background: #ededed;border: 1px solid #ccc;border-top: 1px solid #0000;border-left: 1px solid #0000;padding: 0.1em 0.5em;color: #333;border-radius: 2px;}
+.button[disabled]{opacity: 0.6;}
+.pressed{background: #e5e5e5;box-shadow: inset 0 0 5px #ccc;border: 1px solid #aaa;border-right: 1px solid #0000;border-bottom: 1px solid #0000;color: #777;}
+input[type="color"]{border: 1px solid black;border-radius: 50%;width: 20px;height: 20px;padding: 0;}'
+}
+
+to '_webpnl unescape URL part' part {
+  local 'escape codes' ('[data:makeList]' '%20' '%3C' '%3E' '%91' '%93' '%58')
+  local 'unescaped chars' ('[data:makeList]' ' ' '<' '>' '[' ']' ':')
+  local 'unescaped part' ''
+  local 'skip' 0
+  for i (size part) {
+    for code (v 'escape codes') {
+      if (beginsWith ('[data:copyFromTo]' part i) code) {
+        'unescaped part' = ('[data:join]' (v 'unescaped part') (at ('[data:find]' code (v 'escape codes')) (v 'unescaped chars')))
+        skip = 3
+      }
+    }
+    if (skip > 0) {
+      skip += -1
+    } else {
+      'unescaped part' = ('[data:join]' (v 'unescaped part') (at i part))
+    }
+  }
+  return (v 'unescaped part')
+}
+
+to '_webpnl update page cache' {
+  _webpnl_page_cache = ('[data:join]' '<!DOCTYPE html>' ('_webpnl html tag' 'html' ('[data:makeList]' ('_webpnl html tag' 'head' ('[data:makeList]' ('_webpnl html tag' 'title' _webpnl_title) ('_webpnl html tag' 'script' ('[data:join]' 'ws = new WebSocket(''ws://' (getIPAddress) ':81'');
+ws.onmessage = (e) => {
+  var parts = e.data.split(''/'');
+  document.querySelector(''#''+parts[0]).innerHTML = parts[1];
+};')))) ('_webpnl html tag' 'body' ('[data:makeList]' ('_webpnl html tag' 'h2' _webpnl_title 'id' 'title') ('_webpnl html tag' 'div' ('[data:makeList]' ('_webpnl html tag' 'div' ('[data:joinStrings]' _webpnl_readouts) 'id' 'readouts') ('_webpnl html tag' 'div' ('[data:joinStrings]' _webpnl_sliders) 'id' 'sliders') ('_webpnl html tag' 'div' ('[data:joinStrings]' _webpnl_colors) 'id' 'colors') ('_webpnl html tag' 'div' ('[data:joinStrings]' _webpnl_buttons) 'id' 'buttons')) 'id' 'panel'))) ('_webpnl html tag' 'style' _webpnl_css_style))))
+}
+
+to '_webpnl webserver loop' {
+  '_webpnl update page cache'
+  forever {
+    local 'request' ('[net:httpServerGetRequest]')
+    if (request != '') {
+      local 'path' ('path of request' request)
+      local 'path parts' ('[data:split]' ('_webpnl unescape URL part' ('[data:copyFromTo]' path 2)) '/')
+      if (path == '/') {
+        '[net:respondToHttpRequest]' '200 OK' _webpnl_page_cache
+      } ((at 1 (v 'path parts')) == 'set') {
+        callCustomCommand (at 2 (v 'path parts')) ('_webpnl sanitized call params' ('[data:copyFromTo]' (v 'path parts') 3))
+        '[net:respondToHttpRequest]' '200 OK'
+      } else {
+        '[net:respondToHttpRequest]' '404 Not Found' ('[data:join]' 'Path not found: ' ('path of request' request))
+      }
+    }
+  }
+}
+
+to '_webpnl websocket loop' {
+  'start WebSocket server'
+  forever {
+    local 'event' ('[net:webSocketLastEvent]')
+    if (event != (booleanConstant false)) {
+      local 'value' ''
+      local 'payload' ('ws event payload' event)
+      if (and (isType payload 'string') (('[data:find]' '/' payload) > 0)) {
+        local 'path parts' ('[data:split]' payload '/')
+        value = ('[data:convertType]' (callCustomReporter (at 2 (v 'path parts')) ('_webpnl sanitized call params' ('[data:copyFromTo]' (v 'path parts') 3))) 'string')
+        '[net:webSocketSendToClient]' ('[data:join]' (at 1 (v 'path parts')) '/' value) ('ws client id' event)
+      }
+    }
+    if (((millisOp) % 5000) < 20) {
+      sendBroadcast 'start WebSocket server'
+      waitMillis 20
+    }
+  }
+}
+
+to 'webpnl add button' label selector params {
+  '_webpnl init'
+  local 'id' ('[data:join]' 'mb-' (microsOp))
+  '[data:addLast]' ('_webpnl html tag' 'span' ('_webpnl html tag' 'button' label 'class' 'button' 'id' id 'onclick' ('[data:join]' '(()=>{const e = document.querySelector(''#' id '''); e.disabled = true; e.classList.add(''pressed''); fetch(''set/' ('_webpnl escaped URL part' selector) (ifExpression (isType params 'list') ('_webpnl escaped call params' params) '') ''').then(response=>{ if (response.ok) { e.classList.remove(''pressed'');  e.disabled = false; }});})()')) 'class' 'line') _webpnl_buttons
+  '_webpnl update page cache'
+}
+
+to 'webpnl add color picker' label selector {
+  '_webpnl init'
+  local 'id' ('[data:join]' 'mb-' (microsOp))
+  '[data:addLast]' ('_webpnl html tag' 'span' ('[data:makeList]' ('_webpnl html tag' 'strong' label 'class' 'label') ('_webpnl html tag' 'input' '' 'id' id 'class' 'color' 'type' 'color' 'onchange' ('[data:join]' '(()=>{const e = document.querySelector(''#' id ''');
+var hc = e.value.substr(1),
+  r = parseInt(hc.substr(0,2),16),
+  g = parseInt(hc.substr(2,2),16),
+  b = parseInt(hc.substr(4,2),16);
+fetch(''set/' ('_webpnl escaped URL part' selector) '/''+(r<<16|g<<8|b));})()') 'value' '#ff00ff')) 'class' 'line') _webpnl_colors
+  '_webpnl update page cache'
+}
+
+to 'webpnl add readout' label selector params {
+  '_webpnl init'
+  local 'id' ('[data:join]' 'mb-' (microsOp))
+  '[data:addLast]' ('_webpnl html tag' 'span' ('[data:makeList]' ('_webpnl html tag' 'strong' label 'class' 'label') ('_webpnl html tag' 'span' '' 'id' id 'class' 'reading') ('_webpnl html tag' 'script' ('[data:join]' 'setInterval(()=>{if (ws.readyState == 1) {ws.send(''' id '/' ('_webpnl escaped URL part' selector) (ifExpression (isType params 'list') ('[data:join]' '/' ('[data:joinStrings]' params '/')) '') ''')}}, 100);'))) 'class' 'line') _webpnl_readouts
+  '_webpnl update page cache'
+}
+
+to 'webpnl add slider' label min max selector {
+  '_webpnl init'
+  local 'id' ('[data:join]' 'mb-' (microsOp))
+  '[data:addLast]' ('_webpnl html tag' 'span' ('[data:makeList]' ('_webpnl html tag' 'strong' label 'class' 'label') ('_webpnl html tag' 'input' '' 'id' id 'class' ('[data:join]' 'slider ' (ifExpression (min > max) 'reverse' '')) 'type' 'range' 'min' (minimum min max) 'max' (maximum min max) 'onchange' ('[data:join]' '(()=>{const e = document.querySelector(''#' id '''); fetch(''set/' ('_webpnl escaped URL part' selector) '/''+e.value);})()'))) 'class' 'line') _webpnl_sliders
+  '_webpnl update page cache'
+}
+
+to 'webpnl add toggle' label selector params {
+  '_webpnl init'
+  local 'id' ('[data:join]' 'mb-' (microsOp))
+  '[data:addLast]' ('_webpnl html tag' 'span' ('_webpnl html tag' 'button' label 'class' 'button' 'id' id 'onclick' ('[data:join]' '(()=>{const e = document.querySelector(''#' id '''); e.disabled=true; fetch(''set/' ('_webpnl escaped URL part' selector) (ifExpression (isType params 'list') ('_webpnl escaped call params' params) '/') ''' + !e.classList.contains(''pressed'')).then(response=>{ if (response.ok) { e.classList.toggle(''pressed''); e.disabled=false; }});})()')) 'class' 'line') _webpnl_buttons
+  '_webpnl update page cache'
+}
+
+to 'webpnl reset web panel' {
+  _webpnl_readouts = 0
+  _webpnl_buttons = 0
+  _webpnl_sliders = 0
+  _webpnl_colors = 0
+  _webpnl_css_style = 0
+  _webpnl_title = 0
+  '_webpnl init'
+}
+
+to 'webpnl set title' title {
+  '_webpnl init'
+  _webpnl_title = title
+  '_webpnl update page cache'
+}
+
+
+module 'WebSocket server' Comm
+author MicroBlocks
+version 1 1 
+depends WiFi 
+tags websockets network 
+description 'Blocks to build your own (very) simple websockets server. The websockets server runs on port 81.'
+
+  spec ' ' 'start WebSocket server' 'start WebSocket server'
+  spec 'r' '[net:webSocketLastEvent]' 'last WebSocket event'
+  spec 'r' 'ws client id' 'client ID for WebSocket event _' 'str' ''
+  spec 'r' 'ws event payload' 'payload for WebSocket event _' 'str' ''
+  spec 'r' 'ws event type' 'type of WebSocket event _' 'str' ''
+  spec ' ' '[net:webSocketSendToClient]' 'send _ to WebSocket client _' 'str num' 'Hello, Client!' 0
+
+to 'start WebSocket server' {
+  comment 'The websockets server runs on port 81.'
+  if ((getIPAddress) != '0.0.0.0') {
+    '[net:webSocketStart]'
+  } else {
+    sayIt 'Not Connected'
+  }
+}
+
+to 'ws client id' event {
+  if (and (isType event 'list') ((size event) > 1)) {
+    return (at 2 event)
+  } else {
+    return ''
+  }
+}
+
+to 'ws event payload' event {
+  if (and (isType event 'list') ((size event) > 2)) {
+    return (at 3 event)
+  } else {
+    return ''
+  }
+}
+
+to 'ws event type' event {
+  if (and (isType event 'list') ((size event) > 0)) {
+    return (at ((at 1 event) + 1) ('[data:makeList]' 'error' 'disconnected' 'connected' 'text message' 'binary message' 'text fragment start' 'binary fragment start' 'fragment' 'fragment end' 'ping' 'pong' 'waiting'))
+  } else {
+    return ''
+  }
+}
+
+
+module WiFi Comm
+author MicroBlocks
+version 1 10 
+tags communication network 
+description 'Connect to a WiFi network. Used in conjunction with other network libraries, such as HTTP client, HTTP server or Web Thing.
+'
+
+  spec ' ' 'wifiConnect' 'wifi connect to _ password _ : IP _ gateway _ subnet _' 'str str auto auto auto' 'Network_Name' '' '192.168.1.42' '192.168.1.1' '255.255.255.0'
+  spec ' ' 'wifiCreateHotspot' 'wifi create hotspot _ password _' 'str str' 'Network_Name' 'Network_Password'
+  spec ' ' '[net:stopWiFi]' 'stop wifi'
+  space
+  spec ' ' '[net:setDomainName]' 'wifi set local domain name _ .local' 'str' 'microblocks'
+  space
+  spec 'r' 'getIPAddress' 'IP address'
+  spec 'r' '[net:myMAC]' 'MAC address'
+  space
+  spec ' ' '[net:allowWiFiAndBLE]' 'allow WiFi while using BLE _' 'bool' true
+
+to getIPAddress {
+  return ('[net:myIPAddress]')
+}
+
+to wifiConnect ssid password fixedIP gatewayIP subnetIP {
+  if (not ('[net:hasWiFi]')) {return}
+  '[net:stopWiFi]'
+  if ((pushArgCount) < 5) {
+    '[net:startWiFi]' ssid password
+  } else {
+    '[net:startWiFi]' ssid password false fixedIP gatewayIP subnetIP
+  }
+  local 'startMSecs' (millisOp)
+  repeatUntil (('[net:myIPAddress]') != '0.0.0.0') {
+    comment 'Timeout after N seconds'
+    if (((millisOp) - startMSecs) > 30000) {
+      sayIt 'Could not connect'
+      return 0
+    }
+    comment 'Slow blink while trying to connect'
+    setUserLED true
+    waitMillis 300
+    setUserLED false
+    waitMillis 300
+  }
+  repeat 6 {
+    comment 'Quick blinks when connected'
+    setUserLED true
+    waitMillis 50
+    setUserLED false
+    waitMillis 50
+  }
+  '[net:setDomainName]' 'microblocks'
+  sayIt 'My IP address is:' ('[net:myIPAddress]')
+}
+
+to wifiCreateHotspot ssid password {
+  if (not ('[net:hasWiFi]')) {return}
+  if ((size password) < 8) {
+    sayIt 'Password must be at least 8 characters'
+    return 0
+  }
+  '[net:startWiFi]' ssid password true
+  if ('Connected' != ('[net:wifiStatus]')) {
+    sayIt 'Could not create hotspot'
+    return 0
+  }
+  repeat 6 {
+    comment 'Quick blinks when connected'
+    setUserLED true
+    waitMillis 50
+    setUserLED false
+    waitMillis 50
+  }
+  '[net:setDomainName]' 'microblocks'
+  sayIt 'My IP address is:' ('[net:myIPAddress]')
+}
+
