@@ -58,7 +58,7 @@ With graphical programming, KidsBlock Desktop aims to stimulate children's inter
 
 
 
-# 2.4 Kidsblock
+# 2.4 Getting started with Kidsblock
 
 (**Here we demonstrate on Windows, and it can be a reference for MacOS.**)
 

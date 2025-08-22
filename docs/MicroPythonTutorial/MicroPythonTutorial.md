@@ -239,7 +239,7 @@ F. Click `install` and wait.
 
 ![QQ_1722307359022](./media/6-4-8.png)
 
-# 2.5 Thonny
+# 2.5 Getting started with Thonny
 
 ## 2.5.1 Interface
 
