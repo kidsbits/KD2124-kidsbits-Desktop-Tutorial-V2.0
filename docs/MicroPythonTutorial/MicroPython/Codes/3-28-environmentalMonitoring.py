@@ -1,0 +1,65 @@
+'''
+ * Filename    : 3-28-environmentalMonitoring
+ * Thonny      : Thonny 4.1.4
+ * Author      : http://www.keyestudio.com
+'''
+import machine
+#import I2C and Pin from machine module
+from machine import I2C, Pin
+#import AHT20 from aht20 library
+from aht20 import AHT20
+#import BMP388 from BMP388 library
+from bmp388 import BMP388
+from oled import OLED
+import time
+
+#create an I2C object and add SDA and SCL pins
+i2c = I2C(scl=Pin(22), sda=Pin(21))
+#create an AHT20 object and initialize I2C object to communicate with AHT20 sensor via I2C bus
+sensor = AHT20(i2c)
+
+# create BMP388 object and set SDA and SCL pins, set IIC frequency to 100KHz
+i2c = machine.SoftI2C(scl=machine.Pin(22), sda=machine.Pin(21), freq=100000)
+
+#create a BMP388 object and send i2c object to it to communicate with the BMP388 sensor via the I2C bus, set the BMP388 IIC address to 0x76
+bmp = BMP388(i2c, i2c_addr=0x76)
+
+# create an OLED example
+oled = OLED(i2c)
+# clear oled
+oled.clear()
+'''
+str() function converts a variable of type string from a variable of another type
+int() function converts a variable of another type to a variable of type int. The reason for this conversion is that there is no data display after the decimal
+pressure unit conversion：1 hPa = 1 × 100 Pa = 100 Pa
+
+'''
+
+while True:		
+    try:
+        #Store the values of temperature and humidity in the temperature and humidity variables
+        temperature, humidity = sensor.read_temperature_humidity()
+        # read the pressure
+        pressure = bmp.read_pressure() // 100 #Convert Pa to hPa by dividing the pressure by 100        
+        # clear display
+        oled.clear()
+        # show pressure
+        oled.show_text("Pressure:", 0, 0)
+        oled.show_text(str(int(pressure)), 70, 0)
+        oled.show_text("hPa", 105, 0)
+        # show temperature
+        oled.show_text("Temperature:", 0, 15)
+        oled.show_text(str(int(temperature)), 100, 15)
+        oled.show_text("C", 120, 15)
+        # show humidity
+        oled.show_text("Humidity:", 0, 30)
+        oled.show_text(str(int(humidity)), 75, 30)
+        oled.show_text("%", 105, 30)
+
+        # show oled
+        oled.oled.show()
+    #detect and read value, print “Failed to read from sensor:” if an error occurs
+    except RuntimeError as e:
+        print("Failed to read from sensor: ", e)
+    time.sleep(1)	#delay 1S
+
